@@ -1,0 +1,27 @@
+/*transition slide-up & slide-down*/
+.slide-up-enter-active, .slide-up-leave-active, .slide-down-enter-active, .slide-down-leave-active {
+  transition: transform 0.8s;
+}
+.slide-down-enter, .slide-up-leave-to {
+  transform: translateY(calc(100% + 50px));
+}
+.slide-up-enter, .slide-down-leave-to {
+  transform: translateY(calc(-100% - 50px));
+}
+
+/*transition scale*/
+.scale-enter-active, .scale-leave-active {
+  transition: all 0.2s linear;
+}
+.scale-enter, .scale-leave-to {
+  transform: scale(0.1);
+  opacity: 0.1;
+}
+
+/*transition opacity*/
+.opacity-enter-active, .opacity-leave-active {
+  transition: opacity 0.2s ease;
+}
+.opacity-enter, .opacity-leave-to {
+  opacity: 0.1;
+}

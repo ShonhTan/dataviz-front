@@ -1,0 +1,55 @@
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  position: relative;
+
+  &__center {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    width: 70rem;
+    align-items: center;
+    & > *:not(last-child) {
+      margin-bottom: 6rem;
+    }
+  } 
+
+  &__logo {
+    width: 38rem;
+    line-height: 10rem;
+    background-color: $gray2;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    text-align: center;
+    line-height: 2.6rem;
+  }
+  
+  &__start-button {
+    height: 8rem;
+    width: 21rem;
+    background-color: $gray2;
+    font-size: 2.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  &__bg-item {
+    position: absolute;
+    height: 80rem;
+    width: 80rem;
+    &--2 {
+      top: -18rem;
+      right: -30rem;
+    }
+    &--1 {
+      bottom: -18rem;
+      left: -30rem;
+    }
+  }
+}

@@ -1,28 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <transition>
+      <component :is="currentSection"
+                 @toDataviz="toDataviz"/>
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//components
+import Home from './views/Home.vue'
+import Dataviz from './views/Dataviz.vue'
 
 export default {
-  name: 'app',
   components: {
-    HelloWorld
+    'home': Home,
+    'dataviz': Dataviz
+  },
+  data: () => ({
+    currentSection: 'home'
+  }),
+  methods: {
+    toDataviz () {
+      this.currentSection = 'dataviz'
+    }
   }
+
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

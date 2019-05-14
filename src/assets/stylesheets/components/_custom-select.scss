@@ -1,0 +1,64 @@
+.custom-select {
+  position: relative;
+  z-index: 3;
+  text-transform: uppercase;
+  input {
+    line-height: 9rem;
+    padding: 0 6rem 0 4rem;
+    background-color: #C4C4C4;
+    font-size: 2.2rem;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    &:focus {
+      cursor: text;
+    }
+  }
+
+  &__box {
+    position: relative;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      right: 3rem;
+      width: 21px;
+      height: 11px;
+      pointer-events: none;
+    }
+  }
+
+  &.is-active .custom-select__list {
+    visibility: visible;
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+
+  &__list {
+    transition: all 0.1s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale3d(0.9, 0.9, 1);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: block;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 1rem 0;
+    min-width: 100%;
+    border: 1px solid #C4C4C4;
+    background-color: #ffffff;
+
+    .list-item {
+      display: block;
+      padding: 3rem;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 2.2rem;
+      &:hover {
+        background-color: #C4C4C4;
+      }
+    }
+  }
+}
