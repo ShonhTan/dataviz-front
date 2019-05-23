@@ -1,14 +1,15 @@
+/* ROBOTO */
 /*Regular*/
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Regular.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Regular.ttf');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Italic.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Italic.ttf');
   font-weight: 400;
   font-style: italic;
 }
@@ -16,14 +17,14 @@
 /*Thin*/
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Thin.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Thin.ttf');
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-ThinItalic.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-ThinItalic.ttf');
   font-weight: 200;
   font-style: italic;
 }
@@ -31,14 +32,14 @@
 /*Light*/
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Light.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Light.ttf');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-LightItalic.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-LightItalic.ttf');
   font-weight: 300;
   font-style: italic;
 }
@@ -46,14 +47,14 @@
 /*Medium*/
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Medium.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Medium.ttf');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-MediumItalic.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-MediumItalic.ttf');
   font-weight: 500;
   font-style: italic;
 }
@@ -61,14 +62,14 @@
 /*Bold*/
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Bold.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Bold.ttf');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-BoldItalic.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-BoldItalic.ttf');
   font-weight: 700;
   font-style: italic;
 }
@@ -76,14 +77,127 @@
 /*Black*/
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-Black.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-Black.ttf');
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~@/assets/fonts/Roboto-BlackItalic.ttf');
+  src: url('~@/assets/fonts/Roboto/Roboto-BlackItalic.ttf');
   font-weight: 800;
   font-style: italic;
+}
+
+
+/* Overpass */
+/*Regular*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-Italic.ttf');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/*ExtraLight*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-ExtraLight.ttf');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-ExtraLightItalic.ttf');
+  font-weight: 100;
+  font-style: italic;
+}
+
+/*Thin*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-Thin.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-ThinItalic.ttf');
+  font-weight: 200;
+  font-style: italic;
+}
+
+/*Light*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-LightItalic.ttf');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/*SemiBold*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-SemiBold.ttf');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-SemiBoldItalic.ttf');
+  font-weight: 600;
+  font-style: italic;
+}
+
+/*Bold*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-BoldItalic.ttf');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/*Black*/
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-Black.ttf');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Overpass';
+  src: url('~@/assets/fonts/Overpass/Overpass-BlackItalic.ttf');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/*Rumeur*/
+@font-face {
+  font-family: 'rumeur';
+  src: url('~@/assets/fonts/rumeur.otf');
 }

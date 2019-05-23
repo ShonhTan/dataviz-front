@@ -4,6 +4,9 @@
   justify-content: center;
   font-size: 2.2rem;
   position: relative;
+  background-image: url('~@/assets/svg/background.png');
+  background-size: cover;
+  background-position: left;
 
   &__center {
     position: relative;
@@ -12,6 +15,8 @@
     flex-direction: column;
     width: 70rem;
     align-items: center;
+    padding: 0 2rem;
+    font-weight: 600;
     & > *:not(last-child) {
       margin-bottom: 6rem;
     }
@@ -33,23 +38,33 @@
   &__start-button {
     height: 8rem;
     width: 21rem;
-    background-color: $gray2;
-    font-size: 2.2rem;
     text-transform: uppercase;
     cursor: pointer;
   }
+
 
   &__bg-item {
     position: absolute;
     height: 80rem;
     width: 80rem;
-    &--2 {
-      top: -18rem;
-      right: -30rem;
+    &--mobile {
+      top: -5vh;
+      left: -5vw;
+      min-height: 110vh;
+      min-width: 110vw;
     }
-    &--1 {
-      bottom: -18rem;
-      left: -30rem;
+    &--2, &--1 {
+      display: none;
+    } 
+    @media (min-width:768px) {
+      &--2 {
+        top: -18rem;
+        right: -30rem;
+      }
+      &--1 {
+        bottom: -18rem;
+        left: -30rem;
+      }
     }
   }
 }
