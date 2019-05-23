@@ -19,7 +19,7 @@
 export default {
   methods: {
     start () {
-      this.$emit('toDataviz')
+      this.$router.push('/dataviz')
     }
   }
 }

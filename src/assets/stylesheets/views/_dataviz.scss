@@ -114,8 +114,6 @@
         &-base {
           margin-top: 2rem;
           text-align: center;
-          height: 10rem;
-          width: 10rem;
           // background-color: #C4C4C4;
           // border-radius: 10rem;
           display: flex;
@@ -125,6 +123,15 @@
           .item-name {
             margin: auto;
           }
+          a {
+            display: block;
+            margin: auto;
+            svg {
+              height: 6rem;
+              width: 6rem;
+            }
+          }
+
         }
 
         &-gauge {

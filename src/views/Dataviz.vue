@@ -31,11 +31,13 @@
           <div class="item-gauge">
             <span class="unit" v-for="(unit, uindex) in arrayGauge(item.quantity)"
                   :key="item.aliment_name + uindex + rerenderkey"></span>
-            <span class="item-quantity">{{ item.quantity }}</span>
+            <!-- <span class="item-quantity">{{ item.quantity }}</span> -->
           </div>
-          <svg>
-            <use :xlink:href="`#${ item.short_name }-icon`"/>
-          </svg>
+          <router-link :to="`/chart/${item.short_name}`">
+            <svg>
+              <use :xlink:href="`#${ item.short_name }-icon`"/>
+            </svg>
+          </router-link>
         </div>
       </div>
     </div>
