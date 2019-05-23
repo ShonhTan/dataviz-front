@@ -16,6 +16,8 @@
                 :value="item.year"
                 :key="item.year">{{ item.year }}</option>
       </select>
+      <DateSelect/>
+
       <button class="dataviz-filters__close" @click="mobileMenuOpen=false">
         <svg>
           <use xlink:href="#close-icon"/>
@@ -47,10 +49,12 @@
 <script>
 import axios from '../http'
 import CustomSelect from '../components/CustomSelect.vue'
+import DateSelect from '../components/DateSelect.vue'
 
 export default {
   components: {
-    CustomSelect
+    CustomSelect,
+    DateSelect
   },
   watch: {
     selectedCountry () {
