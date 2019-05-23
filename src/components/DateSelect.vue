@@ -37,6 +37,7 @@
       fill: #ffffff;
       &:hover {
         fill: rgba(#6FE35C, 0.2);
+        cursor: pointer;
       }
       &.green {
         fill: #6FE35C;
