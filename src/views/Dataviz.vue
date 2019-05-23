@@ -13,8 +13,8 @@
       <select class="dataviz-filters__period"
               v-model="selectedYear" name="year" id="year">
         <option v-for="item in yearList"
-                :value="item.year"
-                :key="item.year">{{ item.year }}</option>
+                :value="item.min"
+                :key="item.min">{{ item.min }} - {{ item.max }}</option>
       </select>
       <DateSelect/>
 
@@ -39,7 +39,7 @@
             <svg>
               <use :xlink:href="`#${ item.short_name }-icon`"/>
             </svg>
-            <span class="item-name">{{ item.aliment_name_fr }}</span>
+            <span class="item-name">{{ item.aliment_name }}</span>
           </router-link>
         </div>
       </div>
@@ -114,8 +114,18 @@ export default {
     getYears () {
       axios.get('/years')
         .then(res => {
-          this.yearList = res.data
-          this.selectedYear = 2000
+          const years = res.data
+          this.yearList = []
+          for(let i=0; i< years.length; i++) {
+            if(years.find(el => el.year === years[i].year+9)) {
+              this.yearList.push({
+                min: years[i].year,
+                max: years[i].year+9
+              })
+              i+=9
+            }
+          }
+          this.selectedYear = this.yearList[0].min
         })
     },
 
@@ -131,7 +141,7 @@ export default {
         return 0
       }
       const percentage = quantity/this.currentMaxValue
-      return Array(Math.round(percentage*Math.floor((window.innerHeight-300)/50)*2) || 1)
+      return Array(Math.round(percentage*Math.floor((window.innerHeight-350)/50)*2) || 1)
     }
   },
 }

@@ -16,11 +16,11 @@
     @media (min-width: 768px) {
       padding: 2.5rem 4rem;
       background-color: transparent;
-      position: relative;
       display: flex;
       flex-direction: row;
       height: unset;
-      width: unset;
+      width: 100vw;
+      top: 0;
     }
     &__title {
       font-size: 2.2rem;
@@ -125,10 +125,17 @@
           }
           a {
             display: block;
+            height: 115px;
             margin: auto;
+            position: relative;
+            text-decoration: none;
             svg {
               height: 6rem;
               width: 6rem;
+            }
+            .item-name {
+              text-align: center;
+              color: #000000;
             }
           }
 
@@ -173,9 +180,6 @@
           transform: translateX(-50%);
         }
 
-        &-name {
-          white-space: nowrap;
-        }
       }
     }
   }
