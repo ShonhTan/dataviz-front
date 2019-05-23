@@ -4,7 +4,7 @@
       <h4 class="dataviz-filters__title">
         Choose a time and period
       </h4>
-      <CustomSelect v-model="selectedCountry" :list="countryList"/>
+      <CustomSelect v-model="store.selectedCountry" :list="countryList"/>
       <button class="dataviz-filters__add">
         <svg>
           <use xlink:href="#plus-icon"/>
@@ -39,6 +39,7 @@
             <svg>
               <use :xlink:href="`#${ item.short_name }-icon`"/>
             </svg>
+            <span class="item-name">{{ item.aliment_name_fr }}</span>
           </router-link>
         </div>
       </div>
@@ -48,6 +49,7 @@
 
 <script>
 import axios from '../http'
+import store from '../store.js'
 import CustomSelect from '../components/CustomSelect.vue'
 import DateSelect from '../components/DateSelect.vue'
 
@@ -57,13 +59,13 @@ export default {
     DateSelect
   },
   watch: {
-    selectedCountry () {
+    'store.selectedCountry' () {
       this.getFoodData()
     }
   },
   data: () => ({
+    store,
     countryList: [],
-    selectedCountry: null,
     yearList: [],
     selectedYear: null,
     food: null,
@@ -72,7 +74,7 @@ export default {
   }),
   computed: {
     currentData () {
-      if (!this.selectedYear || !this.selectedCountry || !this.food) {
+      if (!this.selectedYear || !store.selectedCountry || !this.food) {
         return {}
       }
       return this.food.data.map(el => ({
@@ -102,7 +104,7 @@ export default {
       axios.get('/countries')
         .then(res => {
           this.countryList = res.data
-          this.selectedCountry = {
+          store.selectedCountry = {
             country_name: 'France',
             country_code: 'FRA'
           }
@@ -119,7 +121,7 @@ export default {
 
     getFoodData () {
       axios.get('/food', {
-        params: { country_code: this.selectedCountry.country_code }
+        params: { country_code: store.selectedCountry.country_code }
       }).then(res => {
           this.food = res.data
         })

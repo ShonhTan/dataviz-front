@@ -172,6 +172,10 @@
           left: 50%;
           transform: translateX(-50%);
         }
+
+        &-name {
+          white-space: nowrap;
+        }
       }
     }
   }
