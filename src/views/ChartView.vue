@@ -12,6 +12,8 @@
     import axios from '../http'
 
     import 'echarts/lib/chart/line'
+    import 'echarts/lib/component/title'
+    import 'echarts/lib/component/legend'
 
     Vue.component('v-chart', ECharts)
 
@@ -52,7 +54,7 @@
                         text: 'test'
                     },
                     legend: {
-                        data:['2015 降水量', '2016 降水量']
+                        data: ['test']
                     },
                     grid: {
                         top: 70,
