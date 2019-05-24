@@ -4,19 +4,11 @@
       <h4 class="dataviz-filters__title">
         Choose a time and period
       </h4>
-      <CustomSelect v-model="store.selectedCountry" :list="countryList"/>
-      <button class="dataviz-filters__add">
-        <svg>
-          <use xlink:href="#plus-icon"/>
-        </svg>
-      </button>
-      <select class="dataviz-filters__period"
-              v-model="selectedYear" name="year" id="year">
-        <option v-for="item in yearList"
-                :value="item.min"
-                :key="item.min">{{ item.min }} - {{ item.max }}</option>
-      </select>
-      <DateSelect/>
+      <CustomSelect class="custom-select"
+                    v-model="store.selectedCountry" :list="countryList"/>
+      <DateSelect class="date-select"
+                  @select="onDateSelect"
+                  :yearList="yearList"/>
 
       <button class="dataviz-filters__close" @click="mobileMenuOpen=false">
         <svg>
@@ -33,7 +25,7 @@
           <div class="item-gauge">
             <span class="unit" v-for="(unit, uindex) in arrayGauge(item.quantity)"
                   :key="item.aliment_name + uindex + rerenderkey"></span>
-            <!-- <span class="item-quantity">{{ item.quantity }}</span> -->
+            <span class="item-quantity">{{ item.quantity }}</span>
           </div>
           <router-link :to="`/chart/${item.short_name}`">
             <svg>
@@ -81,7 +73,13 @@ export default {
         aliment_name: el.aliment_name,
         aliment_name_fr: el.aliment_name_fr,
         short_name: el.short_name,
-        quantity: el.data.find(el => el.year===this.selectedYear).quantity
+        // quantity: el.data.find(el => el.year===this.selectedYear).quantity
+        quantity: el.data.reduce((acc, o) => {
+          if (o.year >= this.selectedYear && o.year <= this.selectedYear + 9) {
+             acc += o.quantity
+          }
+          return acc
+        }, 0)
       }))
     },
 
@@ -102,13 +100,13 @@ export default {
   methods: {
     getCountries () {
       axios.get('/countries')
-        .then(res => {
-          this.countryList = res.data
-          store.selectedCountry = {
-            country_name: 'France',
-            country_code: 'FRA'
-          }
-        })
+      .then(res => {
+        this.countryList = res.data
+        store.selectedCountry = {
+          country_name: 'France',
+          country_code: 'FRA'
+        }
+      })
     },
 
     getYears () {
@@ -142,7 +140,207 @@ export default {
       }
       const percentage = quantity/this.currentMaxValue
       return Array(Math.round(percentage*Math.floor((window.innerHeight-350)/50)*2) || 1)
+    },
+
+    onDateSelect (i) {
+      this.selectedYear = this.yearList[i].min
     }
   },
 }
 </script>
+
+<style lang="scss" scoped>
+
+.dataviz {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #FFFBF4;
+  &-filters {
+    position: fixed;
+    z-index: 10;
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    flex-direction: column;
+    padding: 8rem 4.5rem 9rem;
+    align-items: center;
+    background-color: rgba(#7AD7FF, 0.8);
+    @media (min-width: 768px) {
+      padding: 2rem 4rem;
+      background-color: transparent;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      height: unset;
+      width: 100vw;
+      top: 0;
+      .custom-select {
+        margin-top: 4rem;
+      }
+    }
+    &__title {
+      font-size: 2.2rem;
+      margin-bottom: 3.6rem;
+      text-align: center;
+      @media (min-width: 768px) {
+        display: none;
+      }
+    }
+    &__add {
+      margin-top: 1.5rem;
+      border: 2px solid #000000;
+      width: 37px;
+      height: 37px;
+      font-size: 2.5rem;
+      line-height: 1px;
+      border-radius: 4rem;
+      cursor: pointer;
+      @media (min-width: 768px) {
+        margin: 0 3rem;
+      }
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+    }
+    .date-select {
+      margin-top: auto;
+      @media (min-width: 768px) {
+        margin: 0 0 0 auto;
+      }
+    }
+    &__close {
+      border: none;
+      background: none;
+      position: absolute;
+      cursor: pointer;
+      top: 2.5rem;
+      right: 2.5rem;
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+      @media (min-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  &__mobile-menu-button {
+    z-index: 10;
+    height: 13rem;
+    width: 13rem;
+    border-radius: 13rem;
+    border: none;
+    background-color: #7AD7FF;
+    position: fixed;
+    top: -3rem;
+    right: -3rem;
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &--on-menu {
+    .dataviz-filters {
+      display: flex;
+    }
+    .dataviz__mobile-menu-button {
+      display: none;
+    }
+  }
+
+
+  &-data {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    margin: auto;
+    overflow-x: scroll; 
+    max-width: 100vw;
+    padding-bottom: 2rem;
+
+    &__item {
+      margin: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: 10rem;
+      text-align: center;
+      .item {
+        &-base {
+          margin-top: 2rem;
+          text-align: center;
+          // background-color: #C4C4C4;
+          // border-radius: 10rem;
+          display: flex;
+          padding: 1rem;
+          line-height: 2.3rem;
+          position: relative;
+          .item-name {
+            margin: auto;
+          }
+          a {
+            display: block;
+            height: 115px;
+            margin: auto;
+            position: relative;
+            text-decoration: none;
+            svg {
+              height: 6rem;
+              width: 6rem;
+            }
+            .item-name {
+              text-align: center;
+              color: #000000;
+            }
+          }
+
+        }
+
+        &-gauge {
+          position: absolute;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap-reverse;
+          width: 100%;
+          bottom: 100%;
+          margin-bottom: 2rem;
+          left: 0;
+          .unit {
+            height: 50px;
+            width: 50%;
+            display: flex;
+            &::after {
+              content: "";
+              background-color: #C4C4C4;
+              height: 20px;
+              width: 20px;
+              border-radius: 20px;
+              margin: auto;
+            }
+          }
+        }
+
+        &-quantity {
+          font-size: 1rem;
+          font-weight: 600;
+          opacity: 0.6;
+          width: 4rem;
+          line-height: 4rem;
+          border: 1px solid #C4C4C4;
+          border-radius: 4rem;
+          position: absolute;
+          margin: 0 auto 1.5rem;
+          bottom: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+      }
+    }
+  }
+}
+
+</style>

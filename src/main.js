@@ -5,6 +5,8 @@ import router from './router.js'
 //import style
 import './assets/stylesheets/main.scss'
 
+import './helpers/directives.js'
+
 //import svg
 const r = require.context('./assets/svg', false, /\.svg$/)
 r.keys().map(r)

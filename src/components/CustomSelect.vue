@@ -1,18 +1,23 @@
 <template>
-  <div class="custom-select" :class="{'is-active' : focus}">
+  <div class="custom-select" :class="{'is-active' : focus}"
+       v-click-outside="onBlur">
     <div class="custom-select__box" v-if="input">
       <input v-model="input.country_name"
              type="text"
              @focus="onFocus"
-             @blur="onBlur"
              @keyup.enter="onEnter">
     </div>
     
-    <div class="custom-select__list" v-if="input">
+    <div class="custom-select__list" v-if="filteredList.length">
       <span v-for="item in filteredList"
             class="list-item"
             @click="onSelect(item)"
             :key="'l' + item.country_code">{{ item.country_name }}</span>
+    </div>
+    <div class="custom-select__list" v-else>
+      <span class="list-item">
+        Aucun pays trouvé
+      </span>
     </div>
 
     <div class="custom-select__box custom-select__box--mobile"
@@ -62,6 +67,7 @@ export default {
       country_name: '',
       country_code: ''
     },
+    memory: null,
     focus: false,
   }),
 
@@ -73,6 +79,7 @@ export default {
 
   methods: {
     onSelect (item) {
+      this.memory = null
       this.focus = false
       this.input = {...item}
       this.$emit('input', this.input)
@@ -84,14 +91,19 @@ export default {
     },
 
     onFocus () {
+      this.memory = { ...this.input }
       this.focus = true
       this.input.country_name = ""
     },
 
     onBlur () {
       setTimeout(() => {
+        if (this.memory) {
+          this.input = { ...this.memory }
+          this.memory = null
+        }
         this.focus = false
-      }, 100)
+      }, 0)
     },
 
     onEnter (e) {
@@ -104,3 +116,109 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.custom-select {
+  position: relative;
+  z-index: 3;
+
+  &__box {
+    display: none;
+    position: relative;
+    background: white;
+    border: 2px solid #000000;
+    border-radius: 3px;
+
+    @media (min-width:768px) {
+      display: block;
+    }
+    &--mobile {
+      position: relative;
+      display: block;
+      width: 30rem;
+      select {
+        position: absolute;
+        opacity: 0;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+      }
+      span {
+        pointer-events: none;
+        line-height: 5rem;
+        padding: 0 3rem;
+        font-size: 2.2rem;
+        font-family: 'rumeur';
+        white-space: nowrap;
+      }
+      @media (min-width:768px) {
+        display: none;
+      }
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 3rem;
+      height: 1rem;
+      width: 1rem;
+      border-right: 2px solid #000000;
+      border-bottom: 2px solid #000000;
+      transform: translateY(-50%) rotateZ(45deg);
+      pointer-events: none;
+    }
+      
+    input {
+      line-height: 5rem;
+      border: none;
+      width: 100%;
+      padding: 0 3rem;
+      font-size: 2.2rem;
+      font-family: 'rumeur';
+      cursor: pointer;
+      &:focus {
+        cursor: text;
+      }
+    }
+  }
+
+  &.is-active .custom-select__list {
+    visibility: visible;
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+  &__list {
+    display: none;
+    @media (min-width:768px) {
+      display: block;
+    }
+    transition: all 0.1s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale3d(0.9, 0.9, 1);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: block;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 1rem 0;
+    min-width: 100%;
+    border: 1px solid #C4C4C4;
+    background-color: #ffffff;
+
+    .list-item {
+      display: block;
+      padding: 3rem;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 2.2rem;
+      font-family: 'rumeur';
+      &:hover {
+        background-color: #C4C4C4;
+      }
+    }
+  }
+}
+</style>
