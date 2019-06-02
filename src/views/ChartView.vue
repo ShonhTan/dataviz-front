@@ -23,7 +23,7 @@
         },
 
         data () {
-            const colors = ['red', '#d14a61', '#675bba'];
+            const colors = ['#FF7A00', '#BC7634', '#FFA620'];
 
             return {
                 allFoods: {
@@ -53,13 +53,6 @@
                     title: {
                         text: 'test'
                     },
-                    legend: {
-                        data: ['test']
-                    },
-                    grid: {
-                        top: 70,
-                        bottom: 50
-                    },
                     xAxis: [
                         {
                             type: 'category',
@@ -69,7 +62,7 @@
                             axisLine: {
                                 onZero: false,
                                 lineStyle: {
-                                    color: colors[1]
+                                    color: 'red'
                                 }
                             },
                             data: []
@@ -85,7 +78,7 @@
                     ],
                     series: [
                         {
-                            name:'2015 降水量',
+                            name:'123',
                             type:'line',
                             xAxisIndex: 1,
                             smooth: true,
@@ -119,6 +112,14 @@
                     this.myChart.series[0].data = this.allFoods.quantity
                 })
             },
+                /* if we create a new object data example :
+                this.myChart.series.push({
+                    name: String,
+                    type:'line',
+                    xAxisIndex: 1,
+                    smooth: true,
+                    data: ['1100', '1213', '8000','1100', '1213']
+                })*/
         }
     }
 </script>
