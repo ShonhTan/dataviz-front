@@ -1,9 +1,7 @@
 <template>
   <section class="section dataviz" :class="{ 'dataviz--on-menu' : mobileMenuOpen }">
     <div class="dataviz-filters">
-      <h4 class="dataviz-filters__title">
-        Choose a time and period
-      </h4>
+      <h4 class="dataviz-filters__title">Choose a time and period</h4>
       <CustomSelect class="custom-select"
                     v-model="store.selectedCountry" :list="countryList"/>
       <DateSelect class="date-select"
@@ -23,13 +21,14 @@
            :key="index+rerenderkey">
         <div class="item-base">
           <div class="item-gauge">
-            <span class="unit" v-for="(unit, uindex) in arrayGauge(item.quantity)"
+           
+            <span :class="`unit ${item.short_name}`" v-for="(unit, uindex) in arrayGauge(item.quantity)"
                   :key="item.aliment_name + uindex + rerenderkey"></span>
             <span class="item-quantity">{{ item.quantity }}</span>
           </div>
           <router-link :to="`/chart/${item.short_name}`">
             <svg>
-              <use :xlink:href="`#${ item.short_name }-icon`"/>
+              <use :xlink:href="`#${item.short_name}-icon`"/>
             </svg>
             <span class="item-name">{{ item.aliment_name }}</span>
           </router-link>
@@ -65,6 +64,10 @@ export default {
     mobileMenuOpen: false
   }),
   computed: {
+
+    /**
+     * data de la liste des aliments formatées pour être affichée
+     */
     currentData () {
       if (!this.selectedYear || !store.selectedCountry || !this.food) {
         return {}
@@ -83,6 +86,9 @@ export default {
       }))
     },
 
+    /**
+     * recherche de la plus grande quantité parmis les aliments affichés
+     */
     currentMaxValue () {
       const max = Math.max(...this.currentData.map(el => el.quantity))
       return max > 100 ? max : 100
@@ -131,8 +137,8 @@ export default {
       axios.get('/food', {
         params: { country_code: store.selectedCountry.country_code }
       }).then(res => {
-          this.food = res.data
-        })
+        this.food = res.data
+      })
     },
     arrayGauge (quantity) {
       if (!quantity) {
@@ -150,6 +156,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/assets/stylesheets/partials/variables';
 
 .dataviz {
   display: flex;
@@ -314,7 +321,6 @@ export default {
             display: flex;
             &::after {
               content: "";
-              background-color: #C4C4C4;
               height: 20px;
               width: 20px;
               border-radius: 20px;
@@ -342,5 +348,56 @@ export default {
     }
   }
 }
+
+.rice {
+  &.unit::after {
+    background: $gray1;
+  }
+}
+
+.fish {
+  &.unit::after {
+    background: $blue;
+  }
+}
+
+.palm_oil {
+  &.unit::after {
+    background: $orange;
+  }
+}
+
+.cereals {
+  &.unit::after {
+    background: $orange;
+  }
+}
+
+.meat {
+  &.unit::after {
+    background: $red;
+  }
+}
+
+.sugar {
+  &.unit::after {
+    background: $white;
+    border: 1px solid black;
+  }
+}
+
+.milk {
+  &.unit::after {
+    background: $white;
+    border: 1px solid black;
+  }
+}
+
+.coffee {
+  &.unit::after {
+    background: $brown;
+  }
+}
+
 
 </style>

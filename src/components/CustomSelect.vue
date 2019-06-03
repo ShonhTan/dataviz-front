@@ -45,12 +45,6 @@ export default {
     value () {
       this.input = this.value
     },
-
-    input (a, b) {
-      if(!a) {
-        a = b
-      }
-    }
   },
   props: {
     list: {
