@@ -24,6 +24,7 @@
         default: () => []
       }
     },
+
     data: () => ({
       index: 0,
       hoverSelect: null

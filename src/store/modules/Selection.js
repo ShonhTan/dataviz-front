@@ -5,6 +5,8 @@ export default {
 
   state: {
     country: null,
+    food: null,
+    selectedYear: 1960
   },
 
   actions: {
@@ -17,11 +19,18 @@ export default {
       })
     },
 
+    setYear({ commit }, year) {
+      commit('setYear', year)
+    },
   },
 
   mutations: {
     setCountry: (state, country) => {
       state.country = country
+    },
+
+    setYear: (state, year) => {
+      state.selectedYear = year
     },
 
     setFoodData: (state, food) => {

@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import Country from './modules/Country.js'
+import Params from './modules/Params.js'
+import Selection from './modules/Selection.js'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store(
   {
     modules: {
-      Country,
+      Params,
+      Selection,
     }
-  })
+  }
+)
 
 export default store

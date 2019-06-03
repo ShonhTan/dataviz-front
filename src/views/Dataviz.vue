@@ -3,11 +3,11 @@
     <div class="dataviz-filters">
       <h4 class="dataviz-filters__title">Choose a time and period</h4>
       <CustomSelect class="custom-select"
-                    v-model="store.selectedCountry" :list="countryList"/>
+                    v-model="selectedCountry"
+                    :list="countryList"/>
       <DateSelect class="date-select"
                   @select="onDateSelect"
-                  :yearList="yearList"/>
-
+                  :yearList="decades"/>
       <button class="dataviz-filters__close" @click="mobileMenuOpen=false">
         <svg>
           <use xlink:href="#close-icon"/>
@@ -39,44 +39,49 @@
 </template>
 
 <script>
-import axios from '../http'
-import store from '../store.js'
 import CustomSelect from '../components/CustomSelect.vue'
 import DateSelect from '../components/DateSelect.vue'
+
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
     CustomSelect,
     DateSelect
   },
-  watch: {
-    'store.selectedCountry' () {
-      this.getFoodData()
-    }
-  },
+
   data: () => ({
-    store,
-    countryList: [],
-    yearList: [],
-    selectedYear: null,
-    food: null,
     rerenderkey: 0,
     mobileMenuOpen: false
   }),
+
   computed: {
+    ...mapState('Selection', [
+      'country',
+      'food',
+      'selectedYear'
+    ]),
+
+    ...mapState('Params', [
+      'countryList',
+      'yearList',
+    ]),
+
+    ...mapGetters('Params', [
+      'decades'
+    ]),
 
     /**
      * data de la liste des aliments formatées pour être affichée
      */
     currentData () {
-      if (!this.selectedYear || !store.selectedCountry || !this.food) {
+      if (!this.selectedYear || !this.country || !this.food) {
         return {}
       }
       return this.food.data.map(el => ({
         aliment_name: el.aliment_name,
         aliment_name_fr: el.aliment_name_fr,
         short_name: el.short_name,
-        // quantity: el.data.find(el => el.year===this.selectedYear).quantity
         quantity: el.data.reduce((acc, o) => {
           if (o.year >= this.selectedYear && o.year <= this.selectedYear + 9) {
              acc += o.quantity
@@ -93,53 +98,41 @@ export default {
       const max = Math.max(...this.currentData.map(el => el.quantity))
       return max > 100 ? max : 100
     },
+
+    /**
+     * select country v-model
+     */
+    selectedCountry: {
+      get () {
+        return this.country
+      },
+      set (country) {
+        this.setCountry(country)
+      }
+    }
   },
 
   mounted () {
-    this.getCountries()
-    this.getYears()
+    this.getParams()
+    this.setCountry({
+      country_name: 'France',
+      country_code: 'FRA'
+    })
     window.addEventListener('resize', () => {
       this.rerenderkey++
     })
   },
 
   methods: {
-    getCountries () {
-      axios.get('/countries')
-      .then(res => {
-        this.countryList = res.data
-        store.selectedCountry = {
-          country_name: 'France',
-          country_code: 'FRA'
-        }
-      })
-    },
+    ...mapActions('Selection', [
+      'setCountry',
+      'setYear'
+    ]),
 
-    getYears () {
-      axios.get('/years')
-        .then(res => {
-          const years = res.data
-          this.yearList = []
-          for(let i=0; i< years.length; i++) {
-            if(years.find(el => el.year === years[i].year+9)) {
-              this.yearList.push({
-                min: years[i].year,
-                max: years[i].year+9
-              })
-              i+=9
-            }
-          }
-          this.selectedYear = this.yearList[0].min
-        })
-    },
-
-    getFoodData () {
-      axios.get('/food', {
-        params: { country_code: store.selectedCountry.country_code }
-      }).then(res => {
-        this.food = res.data
-      })
-    },
+    ...mapActions('Params', [
+      'getParams'
+    ]),
+    
     arrayGauge (quantity) {
       if (!quantity) {
         return 0
@@ -149,7 +142,7 @@ export default {
     },
 
     onDateSelect (i) {
-      this.selectedYear = this.yearList[i].min
+      this.setYear(this.decades[i].min)
     }
   },
 }
