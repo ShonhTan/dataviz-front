@@ -45,12 +45,6 @@ export default {
     value () {
       this.input = this.value
     },
-
-    input (a, b) {
-      if(!a) {
-        a = b
-      }
-    }
   },
   props: {
     list: {
@@ -198,14 +192,14 @@ export default {
     visibility: hidden;
     transform: scale3d(0.9, 0.9, 1);
     position: absolute;
-    top: 100%;
+    top: calc(100% - 2px);
     left: 0;
     display: block;
     max-height: 60vh;
     overflow-y: auto;
     padding: 1rem 0;
     min-width: 100%;
-    border: 1px solid #C4C4C4;
+    border: 2px solid #000000;
     background-color: #ffffff;
 
     .list-item {

@@ -8,15 +8,6 @@
 
 <script>
 export default {
-  data: () => ({
-    currentSection: 'home'
-  }),
-  methods: {
-    toDataviz () {
-      this.currentSection = 'dataviz'
-    }
-  }
-
 }
 </script>
 
