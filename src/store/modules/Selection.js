@@ -37,10 +37,4 @@ export default {
       state.food = food
     }
   },
-
-  getters: {
-    State (state) {
-      return state
-    }
-  }
 }
