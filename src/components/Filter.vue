@@ -1,9 +1,35 @@
 <template>
   <div class="dataviz-filters">
     <h4 class="dataviz-filters__title">Choose a time and period</h4>
-    <CustomSelect class="custom-select"
-                  v-model="selectedCountry"
-                  :list="countryList"/>
+    <div class="dataviz-filters__select-container">
+      <CustomSelect class="custom-select"
+                    v-model="selectedCountry"
+                    :list="countryList"/>
+      <template>
+        <CustomSelect class="custom-select"
+                      v-show="$route.params.aliment"
+                      v-if="comparedCountries[0]"
+                      v-model="selectedCompareCountry1"
+                      :removable="true"
+                      :list="countryList"
+                      @remove="onCustomSelectRemove(0)"/>
+        <CustomSelect class="custom-select"
+                      v-show="$route.params.aliment"
+                      v-if="comparedCountries[1]"
+                      v-model="selectedCompareCountry2"
+                      :removable="true"
+                      :list="countryList"
+                      @remove="onCustomSelectRemove(1)"/>
+        <button class="dataviz-filters__add"
+                v-show="$route.params.aliment"
+                v-if="comparedCountries.length < 2"
+                @click="addCompareCountry">
+          <svg>
+            <use xlink:href="#plus-icon"/>
+          </svg>
+      </button>
+      </template>
+    </div>
     <DateSelect class="date-select"
                 @select="onDateSelect"
                 :yearList="decades"/>
@@ -12,6 +38,7 @@
         <use xlink:href="#close-icon"/>
       </svg>
     </button>
+    <router-link :style="{color: 'white', position: 'fixed', top: '3rem', right: '3rem', fontSize:'4rem', textDecoration: 'none'}" to="/dataviz" v-if="$route.params.aliment">X</router-link>
   </div>
 </template>
 
@@ -22,6 +49,12 @@
   import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default {
+    watch:{
+      $route (to, from){
+        console.log(this.comparedCountries[0])
+
+      }
+    },
     components: {
       CustomSelect,
       DateSelect
@@ -30,7 +63,8 @@
     computed: {
       ...mapState('Selection', [
         'country',
-        'selectedYear'
+        'selectedYear',
+        'comparedCountries'
       ]),
 
       ...mapState('Params', [
@@ -42,7 +76,6 @@
         'decades'
       ]),
 
-
       /**
        * select country v-model
        */
@@ -53,17 +86,42 @@
         set (country) {
           this.setCountry(country)
         }
+      },
+
+      selectedCompareCountry1: {
+        get () {
+          return this.comparedCountries[0]
+        },
+        set (country) {
+          this.setCompareCountry({country, index: 0})
+        }
+      },
+
+      selectedCompareCountry2: {
+        get () {
+          return this.comparedCountries[1]
+        },
+        set (country) {
+          this.setCompareCountry({country, index: 1})
+        }
       }
     },
 
     methods: {
       ...mapActions('Selection', [
         'setCountry',
-        'setYear'
+        'setYear',
+        'addCompareCountry',
+        'removeCompareCountry',
+        'setCompareCountry'
       ]),
 
       onDateSelect (i) {
         this.setYear(this.decades[i].min)
+      },
+
+      onCustomSelectRemove (i) {
+        this.removeCompareCountry(i)
       }
     }
   }
@@ -89,8 +147,8 @@
       height: unset;
       width: 100vw;
       top: 0;
-      .custom-select {
-        margin-top: 4rem;
+      .custom-select:not(:last-child) {
+        margin-right: 2rem;
       }
     }
     &__title {
@@ -99,6 +157,14 @@
       text-align: center;
       @media (min-width: 768px) {
         display: none;
+      }
+    }
+
+    &__select-container {
+      display: flex;
+      align-items: center;
+      @media (min-width: 768px) {
+        margin-top: 4rem;
       }
     }
     &__add {

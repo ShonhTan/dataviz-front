@@ -15,16 +15,15 @@ const routes = [
   },
   {
     path: '/dataviz',
-    component: Dataviz
-  },
-  {
-    path: '/chart/:aliment',
-    component: ChartView
+    component: Dataviz,
+    children: [{
+      path: ':aliment',
+      component: ChartView
+    }]
   }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
   routes // short for `routes: routes`
 })
 
