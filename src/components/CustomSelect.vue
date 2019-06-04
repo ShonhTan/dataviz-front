@@ -34,6 +34,14 @@
         </option>
       </select>
     </div>
+
+    <button v-if="removable"
+            class="custom-select__remove"
+            @click="$emit('remove')">
+      <svg>
+        <use xlink:href="#remove-icon"/>
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -54,6 +62,11 @@ export default {
     value: {
       type: Object,
       required: false
+    },
+    removable: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data: () => ({
@@ -212,6 +225,20 @@ export default {
       &:hover {
         background-color: #C4C4C4;
       }
+    }
+  }
+
+  &__remove {
+    position: absolute;
+    border: none;
+    background: transparent;
+    padding: 0;
+    top: -15px;
+    left: -15px;
+    cursor: pointer;
+    svg {
+      width: 30px;
+      height: 30px;
     }
   }
 }

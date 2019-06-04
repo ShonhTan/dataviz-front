@@ -13,7 +13,7 @@
                   :key="item.aliment_name + uindex + rerenderkey"></span>
             <span class="item-quantity">{{ item.quantity }}</span>
           </div>
-          <router-link :to="`/chart/${item.short_name}`">
+          <router-link :to="`/dataviz/${item.short_name}`">
             <svg>
               <use :xlink:href="`#${item.short_name}-icon`"/>
             </svg>
@@ -22,6 +22,8 @@
         </div>
       </div>
     </div>
+
+    <router-view/>
   </section>
 </template>
 
