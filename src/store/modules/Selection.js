@@ -4,7 +4,10 @@ export default {
   namespaced: true,
 
   state: {
-    country: null,
+    country: {
+      country_name: '',
+      country_code: '',
+    },
     food: null,
     comparedCountries: [],
     selectedYear: 1960
@@ -57,13 +60,17 @@ export default {
 
     addCompareCountry: (state) => {
       state.comparedCountries.push({
-        country: null,
+        country: {
+          country_code: '',
+          country_name: ''
+        },
         food: null
       })
     },
 
     removeCompareCountry: (state, index) => {
       state.comparedCountries.splice(index, 1)
+
     },
 
     setCompareCountry: (state, { country, index }) => {
@@ -72,7 +79,6 @@ export default {
 
     setCompareFoodData: (state, { data, index }) => {
       state.comparedCountries[index].food = data
-      console.log(state)
     }
   },
   

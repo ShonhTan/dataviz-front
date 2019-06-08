@@ -27,7 +27,7 @@
               name="country" id="country"
               ref="mobile-select"
               @change="onSelectMobile">
-        <option v-for="(item, i) in list"
+        <option v-for="(item, i) in countryList"
                 :value="item.country_code"
                 :key="'o' + item.country_code + i">
           {{ item.country_name }}
@@ -47,6 +47,7 @@
 
 <script>
 import { setTimeout } from 'timers';
+import { mapState } from 'vuex'
 
 export default {
   watch: {
@@ -55,10 +56,6 @@ export default {
     },
   },
   props: {
-    list: {
-      type: Array,
-      required: true
-    },
     value: {
       type: Object,
       required: false
@@ -79,9 +76,17 @@ export default {
   }),
 
   computed: {
+    ...mapState('Params', [
+      'countryList'
+    ]),
+
     filteredList () {
-      return this.list.filter(el => el.country_name && el.country_name.toLowerCase().includes(this.input.country_name && this.input.country_name.toLowerCase()))
+      return this.countryList.filter(el => el.country_name && el.country_name.toLowerCase().includes(this.input.country_name && this.input.country_name.toLowerCase()))
     }
+  },
+
+  mounted () {
+    this.input = this.value
   },
 
   methods: {
@@ -93,7 +98,7 @@ export default {
     },
 
     onSelectMobile (a) {
-      this.input = this.list.find(el => el.country_code === a.target.value)
+      this.input = this.countryList.find(el => el.country_code === a.target.value)
       this.$emit('input', this.input)
     },
 

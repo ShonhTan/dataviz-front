@@ -3,22 +3,17 @@
     <h4 class="dataviz-filters__title">Choose a time and period</h4>
     <div class="dataviz-filters__select-container">
       <CustomSelect class="custom-select"
-                    v-model="selectedCountry"
-                    :list="countryList"/>
+                    v-model="selectedCountry"/>
       <template>
         <CustomSelect class="custom-select"
-                      v-show="$route.params.aliment"
-                      v-if="comparedCountries[0]"
+                      v-if="$route.params.aliment && comparedCountries[0]"
                       v-model="selectedCompareCountry1"
                       :removable="true"
-                      :list="countryList"
                       @remove="onCustomSelectRemove(0)"/>
         <CustomSelect class="custom-select"
-                      v-show="$route.params.aliment"
-                      v-if="comparedCountries[1]"
+                      v-if="$route.params.aliment && comparedCountries[1]"
                       v-model="selectedCompareCountry2"
                       :removable="true"
-                      :list="countryList"
                       @remove="onCustomSelectRemove(1)"/>
         <button class="dataviz-filters__add"
                 v-show="$route.params.aliment"
@@ -49,12 +44,6 @@
   import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default {
-    watch:{
-      $route (to, from){
-        console.log(this.comparedCountries[0])
-
-      }
-    },
     components: {
       CustomSelect,
       DateSelect
@@ -68,7 +57,6 @@
       ]),
 
       ...mapState('Params', [
-        'countryList',
         'yearList'
       ]),
 
@@ -90,7 +78,7 @@
 
       selectedCompareCountry1: {
         get () {
-          return this.comparedCountries[0]
+          return this.comparedCountries[0].country
         },
         set (country) {
           this.setCompareCountry({country, index: 0})
@@ -99,7 +87,7 @@
 
       selectedCompareCountry2: {
         get () {
-          return this.comparedCountries[1]
+          return this.comparedCountries[1].country
         },
         set (country) {
           this.setCompareCountry({country, index: 1})
