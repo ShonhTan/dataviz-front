@@ -87,6 +87,9 @@ export default {
         state.food,
         ...state.comparedCountries.map(el => el.food)
       ]
+    },
+    countriesSelected: (state) => {
+      return [state.comparedCountries]
     }
   }
 }
