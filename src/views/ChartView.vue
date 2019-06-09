@@ -141,7 +141,6 @@ export default {
     }
   }
 
-/*todo : La fonction currentData s execute plusieurs fois et reboucle de nouveau, ce qui génére plusieur fois de la data issue de nos items et faire en sorte de remove le dernier objet push si la valeur de l'input a ete modifié'*/
 </script>
 
 <style lang="scss" scoped>
