@@ -1,41 +1,84 @@
 <template>
-  <div class="chart-view">
+  <div class="chart-view" :class="$route.params.aliment">
     <span>{{currentFoodData}}</span>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters('Selection',
-      ['allCountriesFoodData']
+    ...mapGetters('Params', [
+      'decades'
+    ]),   
+    ...mapState('Selection', [
+      'selectedDecade'
+    ]),
+    ...mapGetters('Selection', [
+        'allCountriesFoodData',
+      ]
     ),
+
     currentFoodData () {
       return this.allCountriesFoodData.map(el => {
-        if (!el) return
+        if (!el || !this.decades.length) return
+        const currentFood = el.data.find(aliment => aliment.short_name === this.$route.params.aliment)
         return {
           country: el.name,
-          food: el.data.find(aliment => aliment.short_name === this.$route.params.aliment)
+          food: {
+            ...currentFood,
+            data: this.decades[this.selectedDecade].map(year => currentFood.data.find(el => el.year===year))
+          }
         }
       })
     },
   },
   mounted () {
-    console.log(this.$route)
-    console.log(this.allCountriesFoodData)
   },
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import '~@/assets/stylesheets/partials/variables';
+
 .chart-view {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background: #7AD7FF;
+  
+  &.rice {
+    background: $rice;
+  }
+
+  &.fish {
+    background: $fish;
+  }
+
+  &.palm_oil {
+    background: $palm_oil;
+  }
+
+  &.cereals {
+    background: $cereals;
+  }
+
+  &.meat {
+    background: $meat;
+  }
+
+  &.sugar {
+    background: $sugar;
+  }
+
+  &.milk {
+    background: $milk;
+  }
+
+  &.coffee {
+    background: $coffee;
+  }
 }
 </style>

@@ -25,9 +25,7 @@
       </button>
       </template>
     </div>
-    <DateSelect class="date-select"
-                @select="onDateSelect"
-                :yearList="decades"/>
+    <DateSelect class="date-select"/>
     <button class="dataviz-filters__close" @click="$emit('close')">
       <svg>
         <use xlink:href="#close-icon"/>
@@ -98,15 +96,10 @@
     methods: {
       ...mapActions('Selection', [
         'setCountry',
-        'setYear',
         'addCompareCountry',
         'removeCompareCountry',
         'setCompareCountry'
       ]),
-
-      onDateSelect (i) {
-        this.setYear(this.decades[i].min)
-      },
 
       onCustomSelectRemove (i) {
         this.removeCompareCountry(i)
@@ -116,6 +109,8 @@
 </script>
 
 <style lang="scss">
+@import '~@/assets/stylesheets/partials/variables';
+
 .dataviz-filters {
     position: fixed;
     z-index: 10;
@@ -126,7 +121,7 @@
     padding: 8rem 4.5rem 9rem;
     align-items: center;
     background-color: rgba(#7AD7FF, 0.8);
-    @media (min-width: 768px) {
+    @media (min-width: $bp) {
       padding: 2rem 4rem;
       background-color: transparent;
       display: flex;
@@ -143,7 +138,7 @@
       font-size: 2.2rem;
       margin-bottom: 3.6rem;
       text-align: center;
-      @media (min-width: 768px) {
+      @media (min-width: $bp) {
         display: none;
       }
     }
@@ -151,7 +146,7 @@
     &__select-container {
       display: flex;
       align-items: center;
-      @media (min-width: 768px) {
+      @media (min-width: $bp) {
         margin-top: 4rem;
       }
     }
@@ -164,7 +159,7 @@
       line-height: 1px;
       border-radius: 4rem;
       cursor: pointer;
-      @media (min-width: 768px) {
+      @media (min-width: $bp) {
         margin: 0 3rem;
       }
       svg {
@@ -174,7 +169,7 @@
     }
     .date-select {
       margin-top: auto;
-      @media (min-width: 768px) {
+      @media (min-width: $bp) {
         margin: 0 0 0 auto;
       }
     }
@@ -189,7 +184,7 @@
         height: 24px;
         width: 24px;
       }
-      @media (min-width: 768px) {
+      @media (min-width: $bp) {
         display: none;
       }
     }

@@ -22,7 +22,6 @@
         </div>
       </div>
     </div>
-
     <router-view/>
   </section>
 </template>
@@ -46,12 +45,11 @@ export default {
     ...mapState('Selection', [
       'country',
       'food',
-      'selectedYear'
+      'selectedDecade'
     ]),
 
     ...mapState('Params', [
       'countryList',
-      'yearList',
     ]),
 
     ...mapGetters('Params', [
@@ -62,19 +60,14 @@ export default {
      * data de la liste des aliments formatées pour être affichée
      */
     currentData () {
-      if (!this.selectedYear || !this.country || !this.food) {
+      if (!(this.selectedDecade || this.selectedDecade === 0) || !this.country || !this.food) {
         return {}
       }
       return this.food.data.map(el => ({
         aliment_name: el.aliment_name,
         aliment_name_fr: el.aliment_name_fr,
         short_name: el.short_name,
-        quantity: el.data.reduce((acc, o) => {
-          if (o.year >= this.selectedYear && o.year <= this.selectedYear + 9) {
-             acc += o.quantity
-          }
-          return acc
-        }, 0)
+        quantity: this.decades[this.selectedDecade].reduce((acc, curr) => acc += el.data.find(el => el.year===curr).quantity, 0)
       }))
     },
 
@@ -137,7 +130,7 @@ export default {
     position: fixed;
     top: -3rem;
     right: -3rem;
-    @media (min-width: 768px) {
+    @media (min-width: $bp) {
       display: none;
     }
   }
@@ -244,51 +237,57 @@ export default {
 
 .rice {
   &.unit::after {
-    background: $gray1;
+    background: $rice;
+    border: 1px solid $borderRice;
   }
 }
 
 .fish {
   &.unit::after {
-    background: $blue;
+    background: $fish;
+    border: 1px solid $borderFish;
   }
 }
 
 .palm_oil {
   &.unit::after {
-    background: $orange;
+    background: $palm_oil;
+    border: 1px solid $borderPalm_oil;
   }
 }
 
 .cereals {
   &.unit::after {
-    background: $orange;
+    background: $cereals;
+    border: 1px solid $borderCereals;
   }
 }
 
 .meat {
   &.unit::after {
-    background: $red;
+    background: $meat;
+    border: 1px solid $borderMeat;
   }
 }
 
 .sugar {
   &.unit::after {
-    background: $white;
-    border: 1px solid black;
+    background: $sugar;
+    border: 1px solid $borderSugar;
   }
 }
 
 .milk {
   &.unit::after {
-    background: $white;
-    border: 1px solid black;
+    background: $milk;
+    border: 1px solid $borderMilk;
   }
 }
 
 .coffee {
   &.unit::after {
-    background: $brown;
+    background: $coffee;
+    border: 1px solid $borderCoffee;
   }
 }
 

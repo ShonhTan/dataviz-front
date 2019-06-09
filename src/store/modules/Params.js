@@ -37,13 +37,10 @@ export default {
     decades (state) {
       const decades = []
       for(let i=0; i< state.yearList.length; i++) {
-        if(state.yearList.find(el => el.year === state.yearList[i].year+9)) {
-          decades.push({
-            min: state.yearList[i].year,
-            max: state.yearList[i].year+9
-          })
-          i+=9
+        if (!decades.length || state.yearList[i].year - decades[decades.length - 1][0] >= 10) {
+          decades.push([])
         }
+        decades[decades.length - 1].push(state.yearList[i].year)
       }
       return decades
     }

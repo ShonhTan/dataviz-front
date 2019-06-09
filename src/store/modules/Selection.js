@@ -10,7 +10,7 @@ export default {
     },
     food: null,
     comparedCountries: [],
-    selectedYear: 1960
+    selectedDecade: 0
   },
 
   actions: {
@@ -23,8 +23,8 @@ export default {
       })
     },
 
-    setYear({ commit }, year) {
-      commit('setYear', year)
+    setDecade({ commit }, decade) {
+      commit('setDecade', decade)
     },
 
     addCompareCountry({ commit }) {
@@ -50,8 +50,8 @@ export default {
       state.country = country
     },
 
-    setYear: (state, year) => {
-      state.selectedYear = year
+    setDecade: (state, decade) => {
+      state.selectedDecade = decade
     },
 
     setFoodData: (state, food) => {
@@ -70,7 +70,6 @@ export default {
 
     removeCompareCountry: (state, index) => {
       state.comparedCountries.splice(index, 1)
-
     },
 
     setCompareCountry: (state, { country, index }) => {
