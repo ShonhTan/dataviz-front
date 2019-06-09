@@ -22,20 +22,6 @@ export default {
   data () {
     const colors = ['#FF7A00', '#BC7634', '#FFA620'];
     return {
-      allFoods: {
-        food: null,
-        rice: null,
-        sugar: null,
-        palmOil: null,
-        coffee: null,
-        milk: null,
-        cereals: null,
-        meat: null,
-        fish: null,
-        foodSelected: null,
-        years: null,
-        quantity: null
-      },
       myChart: {
         color: colors,
         tooltip: {
