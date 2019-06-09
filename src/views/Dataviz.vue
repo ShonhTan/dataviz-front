@@ -60,7 +60,7 @@ export default {
      * data de la liste des aliments formatées pour être affichée
      */
     currentData () {
-      if (!(this.selectedDecade || this.selectedDecade === 0) || !this.country || !this.food) {
+      if (!(this.selectedDecade || this.selectedDecade === 0) || !this.decades.length || !this.country || !this.food) {
         return {}
       }
       return this.food.data.map(el => ({
