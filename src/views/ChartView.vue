@@ -1,13 +1,100 @@
 <template>
-  <div class="chart-view" :class="$route.params.aliment">
-    <span>{{currentFoodData}}</span>
+
+  <div class="chart-view">
+    <v-chart class="chart" :options="myChart"/>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import Vue from 'vue'
+import ECharts from 'vue-echarts'
+
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
+
+Vue.component('v-chart', ECharts);
+
 export default {
+  components: {
+    'v-chart': ECharts
+  },
+  data () {
+    const colors = ['#FF7A00', '#BC7634', '#FFA620'];
+    return {
+      allFoods: {
+        food: null,
+        rice: null,
+        sugar: null,
+        palmOil: null,
+        coffee: null,
+        milk: null,
+        cereals: null,
+        meat: null,
+        fish: null,
+        foodSelected: null,
+        years: null,
+        quantity: null
+      },
+      myChart: {
+        color: colors,
+        tooltip: {
+          trigger: 'none',
+          axisPointer: {
+            type: 'cross'
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLine: {
+              onZero: false,
+              lineStyle: {
+                color: 'red'
+              }
+            },
+            data: []
+          },
+          {
+            type: 'category',
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name:'first country',
+            type:'line',
+            xAxisIndex: 1,
+            smooth: true,
+            data: []
+          },
+          {
+            name:'second country',
+            type:'line',
+            xAxisIndex: 1,
+            smooth: true,
+            data: []
+          },
+          {
+            name:'third country',
+            type:'line',
+            xAxisIndex: 1,
+            smooth: true,
+            data: []
+          }
+        ]
+      }
+    }
+  },
   computed: {
     ...mapGetters('Params', [
       'decades'
@@ -35,8 +122,27 @@ export default {
     },
   },
   mounted () {
+
+    console.log(this.$route);
+    // when mounted for the first time
+    if(this.currentFoodData[0]) {
+      this.myChart.xAxis[0].data = this.currentFoodData[0].food.data.map(item =>  item.year);
+      this.myChart.series[0].data = this.currentFoodData[0].food.data.map(item =>  item.quantity);
+    }
   },
-}
+  watch: {
+    currentFoodData(data) {
+      this.myChart.xAxis[0].data = this.currentFoodData[0].food.data.map(item =>  item.year);
+      data.map((item, i) => {
+        if(data[i]) {
+          this.myChart.series[i].data = this.currentFoodData[i].food.data.map(item =>  item.quantity);
+        }
+      });
+      }
+    }
+  }
+
+/*todo : La fonction currentData s execute plusieurs fois et reboucle de nouveau, ce qui génére plusieur fois de la data issue de nos items et faire en sorte de remove le dernier objet push si la valeur de l'input a ete modifié'*/
 </script>
 
 <style lang="scss" scoped>
@@ -81,4 +187,17 @@ export default {
     background: $coffee;
   }
 }
+  .chart {
+    padding-top: 180px;
+    width: 100vw;
+    height: 90vh;
+  }
+  .chart-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #7AD7FF;
+  }
 </style>
