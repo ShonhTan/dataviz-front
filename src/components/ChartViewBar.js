@@ -1,25 +1,21 @@
-import { Bar } from 'vue-chartjs'
+import { Bar, mixins } from 'vue-chartjs'
 
 export default {
-  watch: {
-    chartData () {
-      this.render()
-    }
-  },
   extends: Bar,
+  mixins: [mixins.reactiveProp],
   props: {
     chartData: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
   data: () => ({
-    colors: ['#f87979', '#3D5B96', '#1EFFFF'],
     options: {
       legend: {
         labels: {
           fontColor: "rgba(0,0,0, 0.8)",
-          fontSize: 16
+          fontSize: 16,
+          fontFamily: 'rumeur'
         }
       },
       responsive: true, 
@@ -36,6 +32,7 @@ export default {
           ticks: {
             fontColor: "rgba(0,0,0, 0.8)",
             fontSize: 18,
+            fontFamily: 'Overpass'
           }
         }],
         yAxes: [{
@@ -46,35 +43,16 @@ export default {
           ticks: {
             fontColor: "rgba(0,0,0, 0.8)",
             fontSize: 10,
+            fontStyle: 700,
+            fontFamily: 'Overpass'
           }
         }]
       }
     }
   }),
-  computed: {
-    labels () {
-      return this.chartData[0].food.map(el => el.year)
-    },
-    datasets () {
-      return this.chartData.map((el, i) => {
-        return {
-          label: el.country,
-          backgroundColor: this.colors[i],
-          data: el.food.map(al => al.quantity)
-        }
-      })
-    }
-  },
   mounted () {
-    this.render()
-    this.options.animation = {duration:0}
+    this.renderChart(this.chartData, this.options)
   },
   methods: {
-    render () {
-      this.renderChart({
-        labels: this.labels,
-        datasets: this.datasets
-      }, this.options)
-    }
   }
 }

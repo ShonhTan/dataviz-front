@@ -1,7 +1,7 @@
 <template>
   <div class="chart-view" :class="$route.params.aliment">
     <div class="chart-container">
-      <ChartViewBar :height="500" v-if="currentFoodData.length" :chartData="currentFoodData"/>
+      <ChartViewBar :height="500" v-if="currentFoodData.length" :chartData="chartDataBar"/>
     </div>
   </div>
 </template>
@@ -14,6 +14,9 @@ export default {
   components: {
     ChartViewBar
   },
+  data: () => ({
+    colors: ['#f87979', '#3D5B96', '#1EFFFF'],
+  }),
   computed: {
     ...mapGetters('Params', [
       'decades'
@@ -36,6 +39,23 @@ export default {
         }
       })
     },
+
+    chartDataBar () {
+      if (!this.currentFoodData.length) {
+        return null
+      }
+      console.log(this.currentFoodData)
+      return {
+        labels: this.currentFoodData[0].food.map(el => el.year),
+        datasets: this.currentFoodData.map((el, i) => {
+          return {
+            label: el.country,
+            backgroundColor: this.colors[i],
+            data: el.food.map(al => al.quantity)
+          }
+        })
+      }
+    }
   },
 }
 </script>
