@@ -1,5 +1,11 @@
 <template>
   <div class="dataviz-filters">
+    <router-link class="back-button" to="/dataviz" v-if="$route.params.aliment">
+      <svg>
+        <use xlink:href="#back-icon"/>
+      </svg>
+    </router-link>
+
     <h4 class="dataviz-filters__title">Choose a time and period</h4>
     <div class="dataviz-filters__select-container">
       <CustomSelect class="custom-select"
@@ -26,20 +32,12 @@
       </template>
     </div>
     
-    <label v-if="$route.params.aliment"
-           class="switch" for="world-trigger">
-      <input id="world-trigger" type="checkbox" v-model="worldTrigger">
-      <span></span>
-      World
-    </label>
-    
     <DateSelect class="date-select"/>
     <button class="dataviz-filters__close" @click="$emit('close')">
       <svg>
         <use xlink:href="#close-icon"/>
       </svg>
     </button>
-    <router-link :style="{color: 'black', position: 'fixed', top: '3rem', right: '3rem', fontSize:'4rem', textDecoration: 'none'}" to="/dataviz" v-if="$route.params.aliment">X</router-link>
   </div>
 </template>
 
@@ -167,7 +165,7 @@
     display: flex;
     align-items: center;
     @media (min-width: $bp) {
-      margin-top: 4rem;
+      margin-top: 7rem;
     }
   }
   &__add {
@@ -190,7 +188,7 @@
   .date-select {
     margin-top: auto;
     @media (min-width: $bp) {
-      margin: 0 0 0 2rem;
+      margin: 0 0 0 auto;
     }
   }
   &__close {
@@ -207,6 +205,16 @@
     @media (min-width: $bp) {
       display: none;
     }
+  }
+
+  .back-button {
+    position: fixed;
+    top: 30px;
+    left: 24px;
+    svg {
+      height: 25px;
+      width: 30px;
+    } 
   }
 }
 

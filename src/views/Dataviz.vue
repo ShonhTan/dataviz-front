@@ -111,7 +111,7 @@ export default {
         return 0
       }
       const percentage = quantity/this.currentMaxValue
-      return Array(Math.round(percentage*Math.floor((window.innerHeight-350)/50)*2) || 1)
+      return Array(Math.round(percentage*Math.floor((window.innerHeight-450)/50)*2) || 1)
     },
   },
 }
@@ -161,7 +161,7 @@ export default {
     padding-bottom: 2rem;
 
     &__item {
-      margin: 0 1.5rem;
+      margin: 0 5rem;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -187,8 +187,8 @@ export default {
             position: relative;
             text-decoration: none;
             svg {
-              height: 6rem;
-              width: 6rem;
+              height: 8rem;
+              width: 8rem;
             }
             .item-name {
               text-align: center;
@@ -241,10 +241,17 @@ export default {
   }
 }
 
-.rice {
+.fruit {
   &.unit::after {
-    background: $rice;
-    border: 1px solid $borderRice;
+    background: $fruit;
+    border: 1px solid $borderFruit;
+  }
+}
+
+.vegetable {
+  &.unit::after {
+    background: $vegetable;
+    border: 1px solid $borderVegetable;
   }
 }
 
@@ -252,13 +259,6 @@ export default {
   &.unit::after {
     background: $fish;
     border: 1px solid $borderFish;
-  }
-}
-
-.palm_oil {
-  &.unit::after {
-    background: $palm_oil;
-    border: 1px solid $borderPalm_oil;
   }
 }
 

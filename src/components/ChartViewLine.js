@@ -7,6 +7,11 @@ export default {
     chartData: {
       type: Object,
       required: true
+    },
+    height: {
+      type:Number,
+      required: false,
+      default: 350
     }
   },
   data: () => ({

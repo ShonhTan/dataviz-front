@@ -2,12 +2,15 @@
 $gray1: #BDBDBD;
 $gray2: #C4C4C4;
 $gray3: #EFEFEF;
+$gray4: #E0E0E0;
 $white: #ffffff;
 $black: #000000;
 $blue: #568EE1;
 $red: #FF7979;
-$brown: #C3976E;
-$orange: #FFC28A;
+$brown1: #C3976E;
+$brown2: #584029;
+$orange: #FFB673;
+$green: #01BD50;
 
 /**/
 $mainFontColor: $black;
@@ -15,20 +18,21 @@ $mainBackgroundColor: $white;
 
 $bp: 0px;
 
-$rice:     $gray1;
-$fish:     $blue;
-$palm_oil: $orange;
-$cereals:  $orange;
-$meat:     $red;
-$sugar:    $white;
-$milk:     $white;
-$coffee:   $brown;
+$vegetable:         $green;
+$fruit:             $orange;
+$meat:              $red;
+$fish:              $blue;
+$sugar:             $gray4;
+$cereals:           $brown1;
+$coffee:            $brown2;
+$milk:              $white;
 
-$borderRice:     $gray1;
-$borderFish:     $blue;
-$borderPalm_oil: $orange;
-$borderCereals:  $orange;
-$borderMeat:     $red;
-$borderSugar:    black;
-$borderMilk:     black;
-$borderCoffee:   $brown;
+$borderVegetable:   $green;
+$borderFruit:       $orange;
+$borderMeat:        $red;
+$borderFish:        $blue;
+$borderSugar:       $gray4;
+$borderCereals:     $brown1;
+$borderCoffee:      $brown2;
+$borderMilk:        $black;
+

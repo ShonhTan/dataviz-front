@@ -2,7 +2,7 @@
   <div class="chart-view" :class="$route.params.aliment" :data-name="bgName">
     <div class="chart-container" :class="{ 'chart-container--bar' : !chartline }" v-if="$route.params.aliment">
       <transition name="fade" mode="out-in">
-        <component v-if="currentFoodData.length" :is="chartType" :chartData="chartData"/>
+        <component :height="heightChart" v-if="currentFoodData.length" :is="chartType" :chartData="chartData"/>
       </transition>
       <label class="switch" for="switch-chart">
         <input id="switch-chart" type="checkbox" v-model="chartline">
@@ -27,7 +27,7 @@ import { mapState, mapGetters } from 'vuex'
 import ChartViewBar from '../components/ChartViewBar.js'
 import ChartViewLine from '../components/ChartViewLine.js'
 
-const alimentList = ['rice', 'fish', 'meat', 'sugar', 'milk', 'cereals', 'palm_oil', 'coffee']
+const alimentList = ['fruit', 'vegetable', 'meat', 'fish', 'sugar', 'cereals', 'coffee', 'milk']
 
 export default {
   components: {
@@ -51,6 +51,10 @@ export default {
         'zaWarudo'
       ]
     ),
+
+    heightChart () {
+      return window.innerHeight-400
+    },
 
     bgName () {
       return this.$route.params.aliment ? this.$route.params.aliment.split('_').join(' ').toUpperCase() : ''
@@ -148,16 +152,16 @@ export default {
     white-space: nowrap;
   }
 
-  &.rice {
-    background: $rice;
+  &.fruit {
+    background: $fruit;
   }
 
   &.fish {
     background: $fish;
   }
 
-  &.palm_oil {
-    background: $palm_oil;
+  &.vegetable {
+    background: $vegetable;
   }
 
   &.cereals {
@@ -212,7 +216,7 @@ export default {
   z-index: 2;
   height: 3rem;
   width: fit-content;
-  margin: 5rem auto 0;
+  margin: 2rem auto 0;
   display: block;
   font-family: 'rumeur';
   input {

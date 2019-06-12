@@ -1,6 +1,6 @@
 import axiosClient from '../../http'
 
-const alimentList = ['rice', 'fish', 'meat', 'sugar', 'milk', 'cereals', 'palm_oil', 'coffee']
+const alimentList = ['fruit', 'vegetable', 'meat', 'fish', 'sugar', 'cereals', 'coffee', 'milk']
 
 export default {
   namespaced: true,
