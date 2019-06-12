@@ -22,7 +22,11 @@
         </div>
       </div>
     </div>
-    <router-view/>
+      <transition name="fade" mode="out-in">
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
+      </transition>
   </section>
 </template>
 
@@ -60,7 +64,7 @@ export default {
      * data de la liste des aliments formatées pour être affichée
      */
     currentData () {
-      if (!(this.selectedDecade || this.selectedDecade === 0) || !this.country || !this.food) {
+      if (!this.decades.length || !this.country || !this.food) {
         return {}
       }
       return this.food.data.map(el => ({
@@ -86,6 +90,7 @@ export default {
       country_name: 'France',
       country_code: 'FRA'
     })
+    this.getWorldData()
     window.addEventListener('resize', () => {
       this.rerenderkey++
     })
@@ -94,6 +99,7 @@ export default {
   methods: {
     ...mapActions('Selection', [
       'setCountry',
+      'getWorldData'
     ]),
 
     ...mapActions('Params', [
@@ -150,7 +156,7 @@ export default {
     display: flex;
     align-items: stretch;
     margin: auto;
-    overflow-x: scroll; 
+    overflow-x: auto; 
     max-width: 100vw;
     padding-bottom: 2rem;
 

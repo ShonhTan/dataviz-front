@@ -18,10 +18,10 @@
   opacity: 0.1;
 }
 
-/*transition opacity*/
-.opacity-enter-active, .opacity-leave-active {
-  transition: opacity 0.2s ease;
+/*transition fade*/
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
 }
-.opacity-enter, .opacity-leave-to {
-  opacity: 0.1;
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }

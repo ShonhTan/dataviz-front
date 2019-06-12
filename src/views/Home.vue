@@ -5,7 +5,11 @@
     <!-- <svg class="home__bg-item home__bg-item--mobile"><use xlink:href="#background"/></svg> -->
 
     <div class="home__center">
-      <h1 class="home__logo">Logo</h1>
+      <h1 class="home__logo">
+        <svg>
+          <use xlink:href="#logo-dailybread"/>
+        </svg>
+      </h1>
       <p class="home__text">As humans, we sure areproducting a lot  of food to sustain our need.<br>But have you everwondered what it tells us about our world ?</p>
       <svg class="home__start-button"
               @click="start">
@@ -47,22 +51,20 @@ export default {
     align-items: center;
     padding: 0 2rem;
     font-weight: 600;
-    & > *:not(last-child) {
-      margin-bottom: 6rem;
-    }
   } 
 
   &__logo {
-    width: 38rem;
-    line-height: 10rem;
-    background-color: $gray2;
-    text-align: center;
-    text-transform: uppercase;
+    margin-bottom: 3rem;
+    svg {
+      width: 44rem;
+      height: 9rem;
+    }
   }
 
   &__text {
     text-align: center;
     line-height: 2.6rem;
+    margin-bottom: 6rem;
   }
   
   &__start-button {
