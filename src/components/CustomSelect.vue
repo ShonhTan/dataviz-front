@@ -130,6 +130,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/assets/stylesheets/partials/variables';
+
 .custom-select {
   position: relative;
   z-index: 3;
@@ -141,7 +143,7 @@ export default {
     border: 2px solid #000000;
     border-radius: 3px;
 
-    @media (min-width:768px) {
+    @media (min-width:$bp) {
       display: block;
     }
     &--mobile {
@@ -164,7 +166,7 @@ export default {
         font-family: 'rumeur';
         white-space: nowrap;
       }
-      @media (min-width:768px) {
+      @media (min-width:$bp) {
         display: none;
       }
     }
@@ -185,7 +187,7 @@ export default {
       line-height: 5rem;
       border: none;
       width: 100%;
-      padding: 0 3rem;
+      padding: 0 5rem 0 2rem;
       font-size: 2.2rem;
       font-family: 'rumeur';
       cursor: pointer;
@@ -202,7 +204,7 @@ export default {
   }
   &__list {
     display: none;
-    @media (min-width:768px) {
+    @media (min-width:$bp) {
       display: block;
     }
     transition: all 0.1s ease;

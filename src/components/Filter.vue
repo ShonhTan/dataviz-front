@@ -25,13 +25,21 @@
       </button>
       </template>
     </div>
+    
+    <label v-if="$route.params.aliment"
+           class="switch" for="world-trigger">
+      <input id="world-trigger" type="checkbox" v-model="worldTrigger">
+      <span></span>
+      World
+    </label>
+    
     <DateSelect class="date-select"/>
     <button class="dataviz-filters__close" @click="$emit('close')">
       <svg>
         <use xlink:href="#close-icon"/>
       </svg>
     </button>
-    <router-link :style="{color: 'white', position: 'fixed', top: '3rem', right: '3rem', fontSize:'4rem', textDecoration: 'none'}" to="/dataviz" v-if="$route.params.aliment">X</router-link>
+    <router-link :style="{color: 'black', position: 'fixed', top: '3rem', right: '3rem', fontSize:'4rem', textDecoration: 'none'}" to="/dataviz" v-if="$route.params.aliment">X</router-link>
   </div>
 </template>
 
@@ -51,7 +59,8 @@
       ...mapState('Selection', [
         'country',
         'selectedYear',
-        'comparedCountries'
+        'comparedCountries',
+        'world'
       ]),
 
       ...mapState('Params', [
@@ -90,6 +99,15 @@
         set (country) {
           this.setCompareCountry({country, index: 1})
         }
+      },
+
+      worldTrigger: {
+        get () {
+          return this.world.state
+        },
+        set (state) {
+          this.setWorldState(state)
+        }
       }
     },
 
@@ -98,7 +116,8 @@
         'setCountry',
         'addCompareCountry',
         'removeCompareCountry',
-        'setCompareCountry'
+        'setCompareCountry',
+        'setWorldState'
       ]),
 
       onCustomSelectRemove (i) {
@@ -112,81 +131,121 @@
 @import '~@/assets/stylesheets/partials/variables';
 
 .dataviz-filters {
-    position: fixed;
-    z-index: 10;
-    height: 100vh;
+  position: fixed;
+  z-index: 10;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  flex-direction: column;
+  padding: 8rem 4.5rem 9rem;
+  align-items: center;
+  background-color: rgba(#7AD7FF, 0.8);
+  @media (min-width: $bp) {
+    padding: 2rem 4rem;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: unset;
     width: 100vw;
-    display: none;
-    flex-direction: column;
-    padding: 8rem 4.5rem 9rem;
-    align-items: center;
-    background-color: rgba(#7AD7FF, 0.8);
-    @media (min-width: $bp) {
-      padding: 2rem 4rem;
-      background-color: transparent;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      height: unset;
-      width: 100vw;
-      top: 0;
-      .custom-select:not(:last-child) {
-        margin-right: 2rem;
-      }
-    }
-    &__title {
-      font-size: 2.2rem;
-      margin-bottom: 3.6rem;
-      text-align: center;
-      @media (min-width: $bp) {
-        display: none;
-      }
-    }
-
-    &__select-container {
-      display: flex;
-      align-items: center;
-      @media (min-width: $bp) {
-        margin-top: 4rem;
-      }
-    }
-    &__add {
-      margin-top: 1.5rem;
-      border: 2px solid #000000;
-      width: 37px;
-      height: 37px;
-      font-size: 2.5rem;
-      line-height: 1px;
-      border-radius: 4rem;
-      cursor: pointer;
-      @media (min-width: $bp) {
-        margin: 0 3rem;
-      }
-      svg {
-        height: 16px;
-        width: 16px;
-      }
-    }
-    .date-select {
-      margin-top: auto;
-      @media (min-width: $bp) {
-        margin: 0 0 0 auto;
-      }
-    }
-    &__close {
-      border: none;
-      background: none;
-      position: absolute;
-      cursor: pointer;
-      top: 2.5rem;
-      right: 2.5rem;
-      svg {
-        height: 24px;
-        width: 24px;
-      }
-      @media (min-width: $bp) {
-        display: none;
-      }
+    top: 0;
+    .custom-select:not(:last-child) {
+      margin-right: 2rem;
     }
   }
+  &__title {
+    font-size: 2.2rem;
+    margin-bottom: 3.6rem;
+    text-align: center;
+    @media (min-width: $bp) {
+      display: none;
+    }
+  }
+
+  &__select-container {
+    display: flex;
+    align-items: center;
+    @media (min-width: $bp) {
+      margin-top: 4rem;
+    }
+  }
+  &__add {
+    margin-top: 1.5rem;
+    border: 2px solid #000000;
+    width: 37px;
+    height: 37px;
+    font-size: 2.5rem;
+    line-height: 1px;
+    border-radius: 4rem;
+    cursor: pointer;
+    @media (min-width: $bp) {
+      margin: 0 3rem;
+    }
+    svg {
+      height: 16px;
+      width: 16px;
+    }
+  }
+  .date-select {
+    margin-top: auto;
+    @media (min-width: $bp) {
+      margin: 0 0 0 2rem;
+    }
+  }
+  &__close {
+    border: none;
+    background: none;
+    position: absolute;
+    cursor: pointer;
+    top: 2.5rem;
+    right: 2.5rem;
+    svg {
+      height: 24px;
+      width: 24px;
+    }
+    @media (min-width: $bp) {
+      display: none;
+    }
+  }
+}
+
+.switch {
+  z-index: 2;
+  height: 3rem;
+  width: fit-content;
+  margin: 5rem 0 0 auto;
+  display: block;
+  font-family: 'rumeur';
+  text-align: center;
+  input {
+    display: none;
+  }
+  span {
+    display: block;
+    height: 100%;
+    width: 10rem;
+    margin: 0 0.5rem 1rem;
+    background-color: #DDDDDD;
+    border: 2px solid #000000;
+    border-radius: 15px;
+    overflow: hidden;
+    &:after {
+      content: '';
+      display: block;
+      border-radius: 15px;
+      height: 100%;
+      width: 50%;
+      background-color: #ffffff;
+      margin-left: 50%;
+      transition: margin 0.3s ease;
+    } 
+  }
+  input:checked + span {
+    background-color: #7AD7FF;
+    &:after {
+      margin-left: 0;
+    }
+  }
+}
 </style>
