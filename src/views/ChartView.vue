@@ -4,19 +4,19 @@
       <transition name="fade" mode="out-in">
         <component :height="heightChart" v-if="currentFoodData.length" :is="chartType" :chartData="chartData"/>
       </transition>
-      <label class="switch" for="switch-chart">
-        <input id="switch-chart" type="checkbox" v-model="chartline">
-        curve
-        <span></span>
-        chart
-      </label>
+      <div class="switch-container">
+        <svg><use :xlink:href="`#line-icon`"/></svg>
+        <label class="switch" for="switch-chart">
+          <input id="switch-chart" type="checkbox" v-model="chartline">
+          <span class="toggle"></span>
+        </label>
+        <svg><use :xlink:href="`#bar-icon`"/></svg>
+      </div>
       <router-link class="link link--left" :to="`/dataviz/${previousAliment}`">
-        &lt;--
         <svg><use :xlink:href="`#${previousAliment}-icon`"/></svg>
       </router-link>
       <router-link class="link link--right" :to="`/dataviz/${nextAliment}`">
         <svg><use :xlink:href="`#${nextAliment}-icon`"/></svg>
-        --&gt;
       </router-link>
     </div>
   </div>
@@ -107,7 +107,8 @@ export default {
             label: el.country,
             borderColor: this.colors[i],
             backgroundColor: 'rgba(0,0,0,0)',
-            data: el.food.map(al => al.quantity)
+            data: el.food.map(al => al.quantity),
+            pointHitRadius: 20,
           }
         })
       }
@@ -186,16 +187,42 @@ export default {
 
   .link {
     position: fixed;
-    svg {
-      height: 32px;
-      width: 32px;
+    top: 45%;
+    display: flex;
+    align-items: center;
+    &:hover {
+      svg {
+        animation-name: popJump;
+        animation-duration: 0.5s;
+      }
     }
-    top: 90%;
+    svg {
+      height: 7rem;
+      width: 7rem;
+    }
+
     &--left {
       left: 1rem;
+      &::before {
+        content: '';
+        background-image: url('~@/assets/svg/arrow.svg?external');
+        background-size: 25px 25px;
+        height: 25px;
+        width: 25px;
+        margin-right: 0.3rem;
+      }
     }
     &--right {
       right: 1rem;
+      &::after {
+        content: '';
+        background-image: url('~@/assets/svg/arrow.svg?external');
+        background-size: 25px 25px;
+        height: 25px;
+        width: 25px;
+        margin-left: 0.3rem;
+        transform: rotateZ(180deg);
+      }
     }
   }
 }
@@ -204,46 +231,85 @@ export default {
   z-index: 2;
   margin-top: auto;
   margin-bottom: 8rem;
+  padding: 0 16rem 0 16rem;
+  position: relative;
+  &::before {
+    content: '';
+    height: 2px;
+    width: 100vw;
+    background-color: #000000;
+    position: absolute;
+    left: 0;
+    bottom: 9rem;
+  }
+  &::after {
+    content: '';
+    height: 105%;
+    width: 2px;
+    background-color: #000000;
+    position: absolute;
+    left: 22rem;
+    bottom: 0;
+  }
   
-  &--bar {
-    width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  > div:first-child {
+    position: relative;
+    &:before {
+      content: 'x 1 000 tons';
+      position: absolute;
+      left: 10px;
+      top: -50px;
+    }
   }
 }
 
-.switch {
-  z-index: 2;
-  height: 3rem;
-  width: fit-content;
-  margin: 2rem auto 0;
-  display: block;
-  font-family: 'rumeur';
-  input {
-    display: none;
+.switch-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem auto 0;
+  align-items: flex-end;
+  svg {
+    height: 36px;
+    width: 36px;
+    margin: 0 1rem;
   }
-  span {
-    display: inline-block;
-    height: 100%;
-    width: 10rem;
-    margin: 0 0.5rem;
-    background-color: #7AD7FF;
-    border: 2px solid #000000;
-    border-radius: 15px;
-    overflow: hidden;
-    &:after {
-      content: '';
-      display: block;
-      border-radius: 15px;
+    
+  .switch {
+    z-index: 2;
+    height: 3rem;
+    width: fit-content;
+    display: block;
+    font-family: 'rumeur';
+
+    .toggle {
+      display: inline-block;
       height: 100%;
-      width: 50%;
-      background-color: #ffffff;
-      margin-left: 50%;
-      transition: margin 0.3s ease;
-    } 
-  }
-  input:checked + span:after {
-    margin-left: 0;
+      width: 7rem;
+      margin: 0 0.5rem;
+      background-color: #7AD7FF;
+      border: 2px solid #000000;
+      border-radius: 15px;
+      overflow: hidden;
+
+      &:after {
+        content: '';
+        display: block;
+        border-radius: 15px;
+        height: 100%;
+        width: 50%;
+        background-color: #ffffff;
+        margin-left: 50%;
+        transition: margin 0.3s ease;
+      } 
+    }
+
+    input {
+      display: none;
+      &:checked + .toggle:after {
+        margin-left: 0;
+      }
+    }
   }
 }
+
 </style>

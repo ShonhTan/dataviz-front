@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router.js'
 import store from './store'
+import './helpers/filters.js'
 
 //import style
 import './assets/stylesheets/main.scss'

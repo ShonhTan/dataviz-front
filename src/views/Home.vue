@@ -38,7 +38,7 @@ export default {
   justify-content: center;
   font-size: 2.2rem;
   position: relative;
-  background-image: url('~@/assets/svg/sugar-icon.svg?external');
+  background-image: url('~@/assets/svg/background.svg?external');
   background-size: cover;
   background-position: left;
 

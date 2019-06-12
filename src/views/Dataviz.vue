@@ -11,7 +11,7 @@
            
             <span :class="`unit ${item.short_name}`" v-for="(unit, uindex) in arrayGauge(item.quantity)"
                   :key="item.aliment_name + uindex + rerenderkey"></span>
-            <span class="item-quantity">{{ item.quantity }}</span>
+            <span class="item-quantity">{{ item.quantity | formatInt }}</span>
           </div>
           <router-link :to="`/dataviz/${item.short_name}`">
             <svg>
@@ -22,11 +22,11 @@
         </div>
       </div>
     </div>
-      <transition name="fade" mode="out-in">
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-      </transition>
+    <transition name="fade" mode="out-in">
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
+    </transition>
   </section>
 </template>
 
@@ -171,8 +171,6 @@ export default {
         &-base {
           margin-top: 2rem;
           text-align: center;
-          // background-color: #C4C4C4;
-          // border-radius: 10rem;
           display: flex;
           padding: 1rem;
           line-height: 2.3rem;
@@ -186,6 +184,12 @@ export default {
             margin: auto;
             position: relative;
             text-decoration: none;
+            &:hover {
+              svg {
+                animation-name: popJump;
+                animation-duration: 0.5s;
+              }
+            }
             svg {
               height: 8rem;
               width: 8rem;
@@ -296,6 +300,5 @@ export default {
     border: 1px solid $borderCoffee;
   }
 }
-
 
 </style>

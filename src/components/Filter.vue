@@ -217,43 +217,4 @@
     } 
   }
 }
-
-.switch {
-  z-index: 2;
-  height: 3rem;
-  width: fit-content;
-  margin: 5rem 0 0 auto;
-  display: block;
-  font-family: 'rumeur';
-  text-align: center;
-  input {
-    display: none;
-  }
-  span {
-    display: block;
-    height: 100%;
-    width: 10rem;
-    margin: 0 0.5rem 1rem;
-    background-color: #DDDDDD;
-    border: 2px solid #000000;
-    border-radius: 15px;
-    overflow: hidden;
-    &:after {
-      content: '';
-      display: block;
-      border-radius: 15px;
-      height: 100%;
-      width: 50%;
-      background-color: #ffffff;
-      margin-left: 50%;
-      transition: margin 0.3s ease;
-    } 
-  }
-  input:checked + span {
-    background-color: #7AD7FF;
-    &:after {
-      margin-left: 0;
-    }
-  }
-}
 </style>
