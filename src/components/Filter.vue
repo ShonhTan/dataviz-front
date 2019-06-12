@@ -9,17 +9,20 @@
     <h4 class="dataviz-filters__title">Choose a time and period</h4>
     <div class="dataviz-filters__select-container">
       <CustomSelect class="custom-select"
+                      :color="chartColors[0]"
                     v-model="selectedCountry"/>
       <template>
         <CustomSelect class="custom-select"
                       v-if="$route.params.aliment && comparedCountries[0]"
                       v-model="selectedCompareCountry1"
                       :removable="true"
+                      :color="chartColors[1]"
                       @remove="onCustomSelectRemove(0)"/>
         <CustomSelect class="custom-select"
                       v-if="$route.params.aliment && comparedCountries[1]"
                       v-model="selectedCompareCountry2"
                       :removable="true"
+                      :color="chartColors[2]"
                       @remove="onCustomSelectRemove(1)"/>
         <button class="dataviz-filters__add"
                 v-show="$route.params.aliment"
@@ -44,6 +47,7 @@
 <script>
   import CustomSelect from './CustomSelect.vue'
   import DateSelect from './DateSelect.vue'
+  import colors from '../assets/colors.json'
 
   import { mapState, mapGetters, mapActions } from 'vuex'
 
@@ -68,6 +72,10 @@
       ...mapGetters('Params', [
         'decades'
       ]),
+
+      chartColors () {
+        return this.$route.params.aliment ? colors[this.$route.params.aliment].charts : [null, null, null]
+      },
 
       /**
        * select country v-model
@@ -149,7 +157,7 @@
     width: 100vw;
     top: 0;
     .custom-select:not(:last-child) {
-      margin-right: 2rem;
+      margin-right: 2.5rem;
     }
   }
   &__title {

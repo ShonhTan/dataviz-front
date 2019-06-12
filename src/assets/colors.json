@@ -1,0 +1,66 @@
+{
+  "fruit": {
+    "background": "#FFB673",
+    "charts": [
+      "#FF7A00",
+      "#FFB628",
+      "#BC7634"
+    ]
+  },
+  "vegetable": {
+    "background": "#5CDA68",
+    "charts": [
+      "#2B8D35",
+      "#36BF44",
+      "#7DEE39"
+    ]
+  },
+  "meat": {
+    "background": "#FF7979",
+    "charts": [
+      "#BB0000",
+      "#EA2525",
+      "#FF5E19"
+    ]
+  },
+  "fish": {
+    "background": "#568EE1",
+    "charts": [
+      "#001738",
+      "#024FBE",
+      "#0069FF"
+    ]
+  },
+  "sugar": {
+    "background": "#FFEAB5",
+    "charts": [
+      "#BB8700",
+      "#E8B32A",
+      "#FFD600"
+    ]
+  },
+  "cereals": {
+    "background": "#E5A263",
+    "charts": [
+      "#653100",
+      "#B55700",
+      "#E97000"
+    ]
+  },
+  "coffee": {
+    "background": "#442E19",
+    "charts": [
+      "#000000",
+      "#784616",
+      "#9B5C20"
+    ]
+  },
+  "milk": {
+    "background": "#E1E1E1",
+    "charts": [
+      "#3B3B3B",
+      "#7A7A7A",
+      "#C9C9C9"
+    ]
+  }
+  }

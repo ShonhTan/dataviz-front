@@ -26,6 +26,7 @@
 import { mapState, mapGetters } from 'vuex'
 import ChartViewBar from '../components/ChartViewBar.js'
 import ChartViewLine from '../components/ChartViewLine.js'
+import colors from '../assets/colors.json'
 
 const alimentList = ['fruit', 'vegetable', 'meat', 'fish', 'sugar', 'cereals', 'coffee', 'milk']
 
@@ -35,7 +36,6 @@ export default {
     'chart-view-line': ChartViewLine
   },
   data: () => ({
-    colors: ['#f87979', '#3D5B96', '#1EFFFF'],
     chartline: true
   }),
   computed: {
@@ -89,11 +89,13 @@ export default {
         datasets: this.currentFoodData.map((el, i) => {
           return {
             label: el.country,
-            backgroundColor: this.colors[i],
+            backgroundColor: colors[this.$route.params.aliment].charts[i],
             data: el.food.reduce((acc, curr) => {
               acc[0] += curr.quantity
               return acc
-            }, [0])
+            }, [0]),
+            borderWidth: 2,
+            borderColor: "black",
           }
         })
       }
@@ -105,9 +107,12 @@ export default {
         datasets: this.currentFoodData.map((el, i) => {
           return {
             label: el.country,
-            borderColor: this.colors[i],
+            borderColor: colors[this.$route.params.aliment].charts[i],
+            pointHoverBackgroundColor: colors[this.$route.params.aliment].charts[i],
+            borderWidth: 4,
             backgroundColor: 'rgba(0,0,0,0)',
             data: el.food.map(al => al.quantity),
+            pointHoverRadius: 5,
             pointHitRadius: 20,
           }
         })

@@ -42,6 +42,12 @@
         <use xlink:href="#remove-icon"/>
       </svg>
     </button>
+
+    <div class="color-circle" v-if="$route.params.aliment">
+      <svg :style="{fill: color}">
+        <use xlink:href="#chart-color-icon"/>
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -64,6 +70,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    color: {
+      type: String, 
+      required: false,
+      default: ''
     }
   },
   data: () => ({
@@ -187,7 +198,7 @@ export default {
       line-height: 5rem;
       border: none;
       width: 100%;
-      padding: 0 5rem 0 2rem;
+      padding: 0 5rem 0 3rem;
       font-size: 2.2rem;
       font-family: 'rumeur';
       cursor: pointer;
@@ -246,6 +257,24 @@ export default {
     svg {
       width: 30px;
       height: 30px;
+    }
+  }
+
+  .color-circle {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -20px;
+    left: -20px;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #000000;
+    border-radius: 45px;
+    background-color: #ffffff;
+    svg {
+      width: 25px;
+      height: 21px;
     }
   }
 }
