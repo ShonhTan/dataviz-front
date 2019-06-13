@@ -65,7 +65,7 @@ export default {
         },
         callbacks: {
           label: function (tooltipItem, data) {
-            return `${data.datasets[tooltipItem.datasetIndex].label}: ${new Intl.NumberFormat('fr-FR').format(tooltipItem.value)}k tons`
+            return `${data.datasets[tooltipItem.datasetIndex].label}: ${new Intl.NumberFormat('fr-FR').format(tooltipItem.value)} kt`
           }
         }
       }

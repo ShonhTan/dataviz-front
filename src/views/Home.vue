@@ -11,10 +11,8 @@
         </svg>
       </h1>
       <p class="home__text">As humans, we sure areproducting a lot  of food to sustain our need.<br>But have you everwondered what it tells us about our world ?</p>
-      <svg class="home__start-button"
-              @click="start">
-        <use xlink:href="#start-button"/>
-      </svg>
+      <button class="start-button"
+              @click="start"/>
     </div>
   </section>
 </template>
@@ -47,7 +45,7 @@ export default {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    width: 70rem;
+    width: 80rem;
     align-items: center;
     padding: 0 2rem;
     font-weight: 600;
@@ -63,15 +61,24 @@ export default {
 
   &__text {
     text-align: center;
-    line-height: 2.6rem;
-    margin-bottom: 6rem;
+    line-height: 3.2rem;
+    margin-bottom: 3rem;
   }
-  
-  &__start-button {
-    height: 8rem;
-    width: 21rem;
-    text-transform: uppercase;
-    cursor: pointer;
+
+  .start-button {
+    border: none;
+    background-color: transparent;
+    background-image: url('~@/assets/svg/btn-start.svg?external');
+    background-position: bottom 0 right 0;
+    background-size: 180px 50px;
+    background-repeat: no-repeat; 
+    height: 50px;
+    width: 180px;
+    &:active {
+      transform: translateX(2px);
+      background-size: 180px 50px;
+      background-image: url('~@/assets/svg/btn-start-active.svg?external');
+    }
   }
 
 

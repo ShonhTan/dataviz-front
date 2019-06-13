@@ -61,8 +61,7 @@
       ...mapState('Selection', [
         'country',
         'selectedYear',
-        'comparedCountries',
-        'world'
+        'comparedCountries'
       ]),
 
       ...mapState('Params', [
@@ -106,15 +105,6 @@
           this.setCompareCountry({country, index: 1})
         }
       },
-
-      worldTrigger: {
-        get () {
-          return this.world.state
-        },
-        set (state) {
-          this.setWorldState(state)
-        }
-      }
     },
 
     methods: {
@@ -123,7 +113,6 @@
         'addCompareCountry',
         'removeCompareCountry',
         'setCompareCountry',
-        'setWorldState'
       ]),
 
       onCustomSelectRemove (i) {

@@ -53,7 +53,7 @@
 
 <script>
 import { setTimeout } from 'timers';
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   watch: {
@@ -87,7 +87,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('Params', [
+    ...mapGetters('Params', [
       'countryList'
     ]),
 

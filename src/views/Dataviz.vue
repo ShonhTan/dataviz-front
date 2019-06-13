@@ -6,19 +6,19 @@
       <div class="dataviz-data__item"
            v-for="(item, index) in currentData"
            :key="index+rerenderkey">
-        <div class="item-base">
+        <div class="item-base"
+             @click="$router.push(`/dataviz/${item.short_name}`)">
           <div class="item-gauge">
-           
             <span :class="`unit ${item.short_name}`" v-for="(unit, uindex) in arrayGauge(item.quantity)"
                   :key="item.aliment_name + uindex + rerenderkey"></span>
-            <span class="item-quantity">{{ item.quantity | formatInt }}</span>
+            <span :class="`item-quantity ${item.short_name}`">{{ item.quantity | formatInt }} kt</span>
           </div>
-          <router-link :to="`/dataviz/${item.short_name}`">
+          <span :to="`/dataviz/${item.short_name}`">
             <svg>
               <use :xlink:href="`#${item.short_name}-icon`"/>
             </svg>
             <span class="item-name">{{ item.aliment_name }}</span>
-          </router-link>
+          </span>
         </div>
       </div>
     </div>
@@ -50,10 +50,6 @@ export default {
       'country',
       'food',
       'selectedDecade'
-    ]),
-
-    ...mapState('Params', [
-      'countryList',
     ]),
 
     ...mapGetters('Params', [
@@ -90,7 +86,6 @@ export default {
       country_name: 'France',
       country_code: 'FRA'
     })
-    this.getWorldData()
     window.addEventListener('resize', () => {
       this.rerenderkey++
     })
@@ -99,7 +94,6 @@ export default {
   methods: {
     ...mapActions('Selection', [
       'setCountry',
-      'getWorldData'
     ]),
 
     ...mapActions('Params', [
@@ -169,27 +163,32 @@ export default {
       text-align: center;
       .item {
         &-base {
+          cursor: pointer;
           margin-top: 2rem;
           text-align: center;
           display: flex;
           padding: 1rem;
           line-height: 2.3rem;
           position: relative;
+          &:hover {
+            svg {
+              animation-name: popJump;
+              animation-duration: 0.5s;
+            }
+           .item-quantity {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
           .item-name {
             margin: auto;
           }
-          a {
+          > span {
             display: block;
             height: 115px;
             margin: auto;
             position: relative;
             text-decoration: none;
-            &:hover {
-              svg {
-                animation-name: popJump;
-                animation-duration: 0.5s;
-              }
-            }
             svg {
               height: 8rem;
               width: 8rem;
@@ -199,7 +198,6 @@ export default {
               color: #000000;
             }
           }
-
         }
 
         &-gauge {
@@ -209,7 +207,7 @@ export default {
           flex-wrap: wrap-reverse;
           width: 100%;
           bottom: 100%;
-          margin-bottom: 2rem;
+          padding-bottom: 2rem;
           left: 0;
           .unit {
             height: 50px;
@@ -222,83 +220,164 @@ export default {
               border-radius: 20px;
               margin: auto;
             }
+
+            &.fruit {
+              &.unit::after {
+                background: $fruit;
+                border: 1px solid $borderFruit;
+              }
+            }
+
+            &.vegetable {
+              &.unit::after {
+                background: $vegetable;
+                border: 1px solid $borderVegetable;
+              }
+            }
+
+            &.fish {
+              &.unit::after {
+                background: $fish;
+                border: 1px solid $borderFish;
+              }
+            }
+
+            &.cereals {
+              &.unit::after {
+                background: $cereals;
+                border: 1px solid $borderCereals;
+              }
+            }
+
+            &.meat {
+              &.unit::after {
+                background: $meat;
+                border: 1px solid $borderMeat;
+              }
+            }
+
+            &.sugar {
+              &.unit::after {
+                background: $sugar;
+                border: 1px solid $borderSugar;
+              }
+            }
+
+            &.milk {
+              &.unit::after {
+                background: $milk;
+                border: 1px solid $borderMilk;
+              }
+            }
+
+            &.coffee {
+              &.unit::after {
+                background: $coffee;
+                border: 1px solid $borderCoffee;
+              }
+            }
           }
         }
 
         &-quantity {
-          font-size: 1rem;
+          opacity: 0;
+          transform: translateY(-10px);
+          font-size: 1.4rem;
           font-weight: 600;
-          opacity: 0.6;
-          width: 4rem;
-          line-height: 4rem;
-          border: 1px solid #C4C4C4;
-          border-radius: 4rem;
+          font-size: 'rumeur';
+          border: 2px solid #000000;
+          background-color: #ffffff;
+          padding: 1.7rem 1rem;
+          border-radius: 5px;
           position: absolute;
           margin: 0 auto 1.5rem;
-          bottom: 100%;
-          left: 50%;
-          transform: translateX(-50%);
-        }
+          top: -70px;
+          right: 25%;
+          white-space: nowrap;
+          transition: all 0.3s ease;
+         &::before {
+            content: '';
+            position: absolute;
+            display : inline-block;
+            height : 0;
+            width : 0;
+            border-top : 21px solid red;
+            border-left : 21px solid transparent;
+            top: 100%;
+            right: 20px;
+          }
+          &::after {
+            content: '';
+            position: absolute;
+            display : inline-block;
+            height : 0;
+            width : 0;
+            border-top : 16px solid #ffffff;
+            border-left : 16px solid transparent;
+            top: 100%;
+            right: 22px;
+          } 
 
+          &.fruit {
+            border-color: $fruit;
+            &::before {
+              border-top-color: $fruit;
+            }
+          }
+
+          &.vegetable {
+            border-color: $vegetable;
+            &::before {
+              border-top-color: $vegetable;
+            }
+          }
+
+          &.fish {
+            border-color: $fish;
+            &::before {
+              border-top-color: $fish;
+            }
+          }
+
+          &.cereals {
+            border-color: $cereals;
+            &::before {
+              border-top-color: $cereals;
+            }
+          }
+
+          &.meat {
+            border-color: $meat;
+            &::before {
+              border-top-color: $meat;
+            }
+          }
+
+          &.sugar {
+            border-color: $sugar;
+            &::before {
+              border-top-color: $sugar;
+            }
+          }
+
+          &.milk {
+            border-color: #000000;
+            &::before {
+              border-top-color: #000000;
+            }
+          }
+
+          &.coffee {
+            border-color: $coffee;
+            &::before {
+              border-top-color: $coffee;
+            }
+          }
+        }
       }
     }
   }
 }
 
-.fruit {
-  &.unit::after {
-    background: $fruit;
-    border: 1px solid $borderFruit;
-  }
-}
-
-.vegetable {
-  &.unit::after {
-    background: $vegetable;
-    border: 1px solid $borderVegetable;
-  }
-}
-
-.fish {
-  &.unit::after {
-    background: $fish;
-    border: 1px solid $borderFish;
-  }
-}
-
-.cereals {
-  &.unit::after {
-    background: $cereals;
-    border: 1px solid $borderCereals;
-  }
-}
-
-.meat {
-  &.unit::after {
-    background: $meat;
-    border: 1px solid $borderMeat;
-  }
-}
-
-.sugar {
-  &.unit::after {
-    background: $sugar;
-    border: 1px solid $borderSugar;
-  }
-}
-
-.milk {
-  &.unit::after {
-    background: $milk;
-    border: 1px solid $borderMilk;
-  }
-}
-
-.coffee {
-  &.unit::after {
-    background: $coffee;
-    border: 1px solid $borderCoffee;
-  }
-}
 
 </style>

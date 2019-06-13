@@ -2,7 +2,7 @@
   <div class="chart-view" :class="$route.params.aliment" :data-name="bgName">
     <div class="chart-container" :class="{ 'chart-container--bar' : !chartline }" v-if="$route.params.aliment">
       <transition name="fade" mode="out-in">
-        <component :height="heightChart" v-if="currentFoodData.length" :is="chartType" :chartData="chartData"/>
+        <component :height="heightChart" v-if="currentFoodData.length && currentFoodData[0]" :is="chartType" :chartData="chartData"/>
       </transition>
       <div class="switch-container">
         <svg><use :xlink:href="`#line-icon`"/></svg>
@@ -44,11 +44,9 @@ export default {
     ]),   
     ...mapState('Selection', [
       'selectedDecade',
-      'world'
     ]),
     ...mapGetters('Selection', [
         'allCountriesFoodData',
-        'zaWarudo'
       ]
     ),
 
@@ -70,9 +68,6 @@ export default {
 
     currentFoodData () {
       let data = this.allCountriesFoodData
-      if (this.world.state) {
-        data = this.zaWarudo
-      }
       return data.filter(el => el).map(el => {
         if (!el || !this.decades.length) return
         const currentFood = el.data.find(aliment => aliment.short_name === this.$route.params.aliment)
