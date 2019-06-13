@@ -25,3 +25,15 @@
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+@keyframes popJump {
+  from {
+    transform: translateY(0);
+  }
+  30%{
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

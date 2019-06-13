@@ -1,7 +1,7 @@
-import { Bar, mixins } from 'vue-chartjs'
+import { Line, mixins } from 'vue-chartjs'
 
 export default {
-  extends: Bar,
+  extends: Line,
   mixins: [mixins.reactiveProp],
   props: {
     chartData: {
@@ -16,12 +16,13 @@ export default {
   },
   data: () => ({
     options: {
-      legend: {
-        labels: {
-          fontColor: "rgba(0,0,0, 0.8)",
-          fontSize: 16,
-          fontFamily: 'rumeur'
+      layout: {
+        padding: {
+          right: 140
         }
+      },
+      legend: {
+        display: false,
       },
       responsive: true, 
       maintainAspectRatio: false,
@@ -40,7 +41,6 @@ export default {
           }
         }],
         yAxes: [{
-          
           gridLines: {
             color: "rgba(0, 0, 0, 0)",
           },
@@ -49,15 +49,29 @@ export default {
             fontColor: "rgba(0,0,0, 0.8)",
             fontSize: 10,
             fontStyle: 700,
-            fontFamily: 'Overpass'
+            fontFamily: 'Overpass',
+            padding: 100,
+            callback: function(value) {
+              if (value !== 0) return new Intl.NumberFormat('fr-FR').format(value);
+            }
           }
         }]
+      },
+      tooltips: {
+        custom: function(tooltip) {
+          if (!tooltip) return;
+          // disable displaying the color box;
+          tooltip.displayColors = false;
+        },
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return `${data.datasets[tooltipItem.datasetIndex].label}: ${new Intl.NumberFormat('fr-FR').format(tooltipItem.value)} kt`
+          }
+        }
       }
     }
   }),
   mounted () {
     this.renderChart(this.chartData, this.options)
-  },
-  methods: {
   }
 }

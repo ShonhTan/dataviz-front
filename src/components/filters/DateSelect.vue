@@ -2,6 +2,7 @@
     
   <div>
     <svg width="176" height="177" viewBox="0 0 176 177" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="88" cy="89" r="65" fill="white"/>
       <path d="M137.901 160.266C122.851 170.804 104.851 176.307 86.4816 175.987C68.1119 175.666 50.3151 169.538 35.6421 158.481L48.7316 141.111C59.7363 149.404 73.0839 154 86.8612 154.24C100.639 154.481 114.138 150.353 125.426 142.45L137.901 160.266Z" stroke="black" stroke-width="2" :class="checkIndex(0)" @click="onClick(0)" @mouseover="hover(0)" @mouseout="out"/>
       <path d="M171.199 63.5637C176.57 81.1335 176.242 99.9528 170.26 117.324C164.279 134.696 152.951 149.728 137.901 160.266L125.426 142.45C136.713 134.546 145.209 123.272 149.695 110.243C154.181 97.2146 154.428 83.1001 150.399 69.9228L171.199 63.5637Z" stroke="black" stroke-width="2" :class="checkIndex(1)" @click="onClick(1)" @mouseover="hover(1)" @mouseout="out"/>
       <path d="M89.5184 2.01325C107.888 2.33389 125.685 8.4618 140.358 19.5187C155.031 30.5756 165.827 45.9939 171.199 63.5637L150.399 69.9227C146.37 56.7454 138.273 45.1817 127.268 36.889C116.264 28.5964 102.916 24.0004 89.1388 23.7599L89.5184 2.01325Z" stroke="black" stroke-width="2" :class="checkIndex(2)" @click="onClick(2)" @mouseover="hover(2)" @mouseout="out"/>
@@ -67,9 +68,10 @@ div {
   svg {
     transition: transform 1s ease;
     path {
+      transition: fill 0.2s ease;
       fill: #ffffff;
       &:hover {
-        fill: rgba(#6FE35C, 0.2);
+        fill: #C2FFB8;
         cursor: pointer;
       }
       &.green {

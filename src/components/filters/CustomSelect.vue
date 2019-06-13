@@ -5,7 +5,9 @@
       <input v-model="input.country_name"
              type="text"
              @focus="onFocus"
-             @keyup.enter="onEnter">
+             @keyup.enter="onEnter"
+             placeholder="Select a country">
+      <span class="arrow" @click.prevent="toggleInput"/>
     </div>
     
     <div class="custom-select__list" v-if="filteredList.length">
@@ -42,12 +44,18 @@
         <use xlink:href="#remove-icon"/>
       </svg>
     </button>
+
+    <div class="color-circle" v-if="$route.params.aliment">
+      <svg :style="{fill: color}">
+        <use xlink:href="#chart-color-icon"/>
+      </svg>
+    </div>
   </div>
 </template>
 
 <script>
 import { setTimeout } from 'timers';
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   watch: {
@@ -64,6 +72,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    color: {
+      type: String, 
+      required: false,
+      default: ''
     }
   },
   data: () => ({
@@ -76,7 +89,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('Params', [
+    ...mapGetters('Params', [
       'countryList'
     ]),
 
@@ -90,6 +103,10 @@ export default {
   },
 
   methods: {
+    toggleInput () {
+      this.focus = !this.focus
+    },
+    
     onSelect (item) {
       this.memory = null
       this.focus = false
@@ -170,9 +187,9 @@ export default {
         display: none;
       }
     }
-    &:after {
-      content: '';
+    .arrow {
       position: absolute;
+      display: block;
       top: 50%;
       right: 3rem;
       height: 1rem;
@@ -180,14 +197,15 @@ export default {
       border-right: 2px solid #000000;
       border-bottom: 2px solid #000000;
       transform: translateY(-50%) rotateZ(45deg);
-      pointer-events: none;
+      transition: transform 0.3s ease;
+      cursor: pointer;
     }
       
     input {
       line-height: 5rem;
       border: none;
       width: 100%;
-      padding: 0 5rem 0 2rem;
+      padding: 0 5rem 0 3rem;
       font-size: 2.2rem;
       font-family: 'rumeur';
       cursor: pointer;
@@ -197,11 +215,17 @@ export default {
     }
   }
 
-  &.is-active .custom-select__list {
-    visibility: visible;
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
+  &.is-active {
+    .custom-select__list {
+      visibility: visible;
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    .custom-select__box .arrow {
+      transform: translateY(-50%) rotateZ(-135deg);
+    }
   }
+  
   &__list {
     display: none;
     @media (min-width:$bp) {
@@ -240,12 +264,30 @@ export default {
     border: none;
     background: transparent;
     padding: 0;
-    top: -15px;
-    left: -15px;
+    top: -14px;
+    right: -14px;
     cursor: pointer;
     svg {
       width: 30px;
       height: 30px;
+    }
+  }
+
+  .color-circle {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -20px;
+    left: -20px;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #000000;
+    border-radius: 45px;
+    background-color: #ffffff;
+    svg {
+      width: 25px;
+      height: 21px;
     }
   }
 }

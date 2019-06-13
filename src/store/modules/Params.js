@@ -4,7 +4,7 @@ export default {
   namespaced: true,
 
   state: {
-    countryList: [],
+    countries: [],
     yearList: []
   },
 
@@ -24,8 +24,8 @@ export default {
   },
 
   mutations: {
-    setCountryList: (state, countryList) => {
-      state.countryList = countryList
+    setCountryList: (state, countries) => {
+      state.countries = countries
     },
 
     setYearList: (state, yearList) => {
@@ -43,6 +43,16 @@ export default {
         decades[decades.length - 1].push(state.yearList[i].year)
       }
       return decades
+    },
+
+    countryList (state) {
+      return [
+        {
+          country_code: '000',
+          country_name: 'World'
+        },
+        ...state.countries
+      ]
     }
   }
 }

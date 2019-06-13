@@ -21,24 +21,24 @@ export default {
 
   actions: {
     setCountry({ commit }, country) {
-      commit('setCountry', country)
-      axiosClient.get('/food', {
-        params: { country_code: country.country_code }
-      }).then(res => {
-        commit('setFoodData', res.data)
-      })
-    },
-
-    getWorldData({ commit }) {
-      axiosClient.get('/food', {
-        params: { world: true }
-      }).then(res => {
-        commit('getWorldData', res.data)
-      })
-    },
-
-    setWorldState({ commit }, state) {
-      commit('setWorldState', state)
+      if (country.country_code === '000') {
+        commit('setCountry', country)
+        axiosClient.get('/food', {
+          params: { world: true }
+        }).then(res => {
+          commit('setFoodData', {
+            name: 'World',
+            data: res.data
+          })
+        })
+      } else {
+        commit('setCountry', country)
+        axiosClient.get('/food', {
+          params: { country_code: country.country_code }
+        }).then(res => {
+          commit('setFoodData', res.data)
+        })
+      }
     },
 
     setDecade({ commit }, decade) {
@@ -47,7 +47,6 @@ export default {
 
     addCompareCountry({ commit }) {
       commit('addCompareCountry')
-      commit('setWorldState', false)
     },
 
     removeCompareCountry({ commit }, index) {
@@ -55,12 +54,27 @@ export default {
     },
 
     setCompareCountry({ commit }, { country, index }) {
-      commit('setCompareCountry', { country, index })
-      axiosClient.get('/food', {
-        params: { country_code: country.country_code }
-      }).then(res => {
-        commit('setCompareFoodData', { data: res.data, index})
-      })
+      if (country.country_code === '000') {
+        commit('setCompareCountry', { country, index })
+        axiosClient.get('/food', {
+          params: { world: true }
+        }).then(res => {
+          commit('setCompareFoodData', {
+            data: {
+              name: 'World',
+              data: res.data
+            },
+            index
+          })
+        })
+      } else {
+        commit('setCompareCountry', { country, index })
+        axiosClient.get('/food', {
+          params: { country_code: country.country_code }
+        }).then(res => {
+          commit('setCompareFoodData', { data: res.data, index})
+        })
+      }
     }
   },
 

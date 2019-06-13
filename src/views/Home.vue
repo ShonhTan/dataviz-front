@@ -1,33 +1,14 @@
 <template>
   <section class="section home">
-    <svg class="home__bg-item home__bg-item--1"><use xlink:href="#home-bg"/></svg>
-    <svg class="home__bg-item home__bg-item--2"><use xlink:href="#home-bg-2"/></svg>
-    <!-- <svg class="home__bg-item home__bg-item--mobile"><use xlink:href="#background"/></svg> -->
-
     <div class="home__center">
       <h1 class="home__logo">
-        <svg>
-          <use xlink:href="#logo-dailybread"/>
-        </svg>
+        <img src="@/assets/img/logo-dailybread.png" alt="" draggable="false">
       </h1>
-      <p class="home__text">As humans, we sure areproducting a lot  of food to sustain our need.<br>But have you everwondered what it tells us about our world ?</p>
-      <svg class="home__start-button"
-              @click="start">
-        <use xlink:href="#start-button"/>
-      </svg>
+      <p class="home__text">As humans, we sure are producing a lot of food to sustain our needs. <br>But have you ever wondered what it tells us about the world ?</p>
+      <router-link class="start-button" draggable="false" to="/dataviz"/>
     </div>
   </section>
 </template>
-
-<script>
-export default {
-  methods: {
-    start () {
-      this.$router.push('/dataviz')
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 @import '~@/assets/stylesheets/partials/variables';
@@ -38,7 +19,7 @@ export default {
   justify-content: center;
   font-size: 2.2rem;
   position: relative;
-  background-image: url('~@/assets/svg/sugar-icon.svg?external');
+  background-image: url('~@/assets/svg/background.svg?external');
   background-size: cover;
   background-position: left;
 
@@ -47,7 +28,7 @@ export default {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    width: 70rem;
+    width: 80rem;
     align-items: center;
     padding: 0 2rem;
     font-weight: 600;
@@ -55,7 +36,7 @@ export default {
 
   &__logo {
     margin-bottom: 3rem;
-    svg {
+    img {
       width: 44rem;
       height: 9rem;
     }
@@ -63,17 +44,26 @@ export default {
 
   &__text {
     text-align: center;
-    line-height: 2.6rem;
-    margin-bottom: 6rem;
-  }
-  
-  &__start-button {
-    height: 8rem;
-    width: 21rem;
-    text-transform: uppercase;
-    cursor: pointer;
+    line-height: 3.2rem;
+    margin-bottom: 3rem;
   }
 
+  .start-button {
+    border: none;
+    background-color: transparent;
+    background-image: url('~@/assets/svg/btn-start.svg?external');
+    background-position: bottom 0 right 0;
+    background-size: 180px 50px;
+    background-repeat: no-repeat; 
+    height: 50px;
+    width: 180px;
+    cursor: pointer;
+    &:active {
+      transform: translateX(2px);
+      background-size: 180px 50px;
+      background-image: url('~@/assets/svg/btn-start-active.svg?external');
+    }
+  }
 
   &__bg-item {
     position: absolute;

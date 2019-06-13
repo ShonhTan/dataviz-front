@@ -1,25 +1,26 @@
 <template>
   <div class="dataviz-filters">
-    <router-link class="back-button" to="/dataviz" v-if="$route.params.aliment">
-      <svg>
-        <use xlink:href="#back-icon"/>
-      </svg>
+    <router-link class="back-button" :to="$route.params.aliment ? '/dataviz' : '/'">
+      <svg><use xlink:href="#back-icon"/></svg>
     </router-link>
 
     <h4 class="dataviz-filters__title">Choose a time and period</h4>
     <div class="dataviz-filters__select-container">
       <CustomSelect class="custom-select"
+                      :color="chartColors[0]"
                     v-model="selectedCountry"/>
       <template>
         <CustomSelect class="custom-select"
                       v-if="$route.params.aliment && comparedCountries[0]"
                       v-model="selectedCompareCountry1"
                       :removable="true"
+                      :color="chartColors[1]"
                       @remove="onCustomSelectRemove(0)"/>
         <CustomSelect class="custom-select"
                       v-if="$route.params.aliment && comparedCountries[1]"
                       v-model="selectedCompareCountry2"
                       :removable="true"
+                      :color="chartColors[2]"
                       @remove="onCustomSelectRemove(1)"/>
         <button class="dataviz-filters__add"
                 v-show="$route.params.aliment"
@@ -42,8 +43,9 @@
 </template>
 
 <script>
-  import CustomSelect from './CustomSelect.vue'
-  import DateSelect from './DateSelect.vue'
+  import CustomSelect from './filters/CustomSelect.vue'
+  import DateSelect from './filters/DateSelect.vue'
+  import colors from '../assets/colors.json'
 
   import { mapState, mapGetters, mapActions } from 'vuex'
 
@@ -57,8 +59,7 @@
       ...mapState('Selection', [
         'country',
         'selectedYear',
-        'comparedCountries',
-        'world'
+        'comparedCountries'
       ]),
 
       ...mapState('Params', [
@@ -68,6 +69,10 @@
       ...mapGetters('Params', [
         'decades'
       ]),
+
+      chartColors () {
+        return this.$route.params.aliment ? colors[this.$route.params.aliment].charts : [null, null, null]
+      },
 
       /**
        * select country v-model
@@ -98,15 +103,6 @@
           this.setCompareCountry({country, index: 1})
         }
       },
-
-      worldTrigger: {
-        get () {
-          return this.world.state
-        },
-        set (state) {
-          this.setWorldState(state)
-        }
-      }
     },
 
     methods: {
@@ -115,7 +111,6 @@
         'addCompareCountry',
         'removeCompareCountry',
         'setCompareCountry',
-        'setWorldState'
       ]),
 
       onCustomSelectRemove (i) {
@@ -139,7 +134,7 @@
   align-items: center;
   background-color: rgba(#7AD7FF, 0.8);
   @media (min-width: $bp) {
-    padding: 2rem 4rem;
+    padding: 2rem 2.6rem;
     background-color: transparent;
     display: flex;
     flex-direction: row;
@@ -149,7 +144,7 @@
     width: 100vw;
     top: 0;
     .custom-select:not(:last-child) {
-      margin-right: 2rem;
+      margin-right: 2.5rem;
     }
   }
   &__title {
@@ -178,7 +173,7 @@
     border-radius: 4rem;
     cursor: pointer;
     @media (min-width: $bp) {
-      margin: 0 3rem;
+      margin: 0;
     }
     svg {
       height: 16px;
@@ -210,50 +205,11 @@
   .back-button {
     position: fixed;
     top: 30px;
-    left: 24px;
+    left: 26px;
     svg {
       height: 25px;
       width: 30px;
     } 
-  }
-}
-
-.switch {
-  z-index: 2;
-  height: 3rem;
-  width: fit-content;
-  margin: 5rem 0 0 auto;
-  display: block;
-  font-family: 'rumeur';
-  text-align: center;
-  input {
-    display: none;
-  }
-  span {
-    display: block;
-    height: 100%;
-    width: 10rem;
-    margin: 0 0.5rem 1rem;
-    background-color: #DDDDDD;
-    border: 2px solid #000000;
-    border-radius: 15px;
-    overflow: hidden;
-    &:after {
-      content: '';
-      display: block;
-      border-radius: 15px;
-      height: 100%;
-      width: 50%;
-      background-color: #ffffff;
-      margin-left: 50%;
-      transition: margin 0.3s ease;
-    } 
-  }
-  input:checked + span {
-    background-color: #7AD7FF;
-    &:after {
-      margin-left: 0;
-    }
   }
 }
 </style>

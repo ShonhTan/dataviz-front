@@ -2,21 +2,21 @@
   <div class="chart-view" :class="$route.params.aliment" :data-name="bgName">
     <div class="chart-container" :class="{ 'chart-container--bar' : !chartline }" v-if="$route.params.aliment">
       <transition name="fade" mode="out-in">
-        <component :height="heightChart" v-if="currentFoodData.length" :is="chartType" :chartData="chartData"/>
+        <component :height="heightChart" v-if="currentFoodData.length && currentFoodData[0]" :is="chartType" :chartData="chartData"/>
       </transition>
-      <label class="switch" for="switch-chart">
-        <input id="switch-chart" type="checkbox" v-model="chartline">
-        curve
-        <span></span>
-        chart
-      </label>
+      <div class="switch-container">
+        <svg><use :xlink:href="`#line-icon`"/></svg>
+        <label class="switch" for="switch-chart">
+          <input id="switch-chart" type="checkbox" v-model="chartline">
+          <span class="toggle"></span>
+        </label>
+        <svg><use :xlink:href="`#bar-icon`"/></svg>
+      </div>
       <router-link class="link link--left" :to="`/dataviz/${previousAliment}`">
-        &lt;--
         <svg><use :xlink:href="`#${previousAliment}-icon`"/></svg>
       </router-link>
       <router-link class="link link--right" :to="`/dataviz/${nextAliment}`">
         <svg><use :xlink:href="`#${nextAliment}-icon`"/></svg>
-        --&gt;
       </router-link>
     </div>
   </div>
@@ -24,8 +24,9 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import ChartViewBar from '../components/ChartViewBar.js'
-import ChartViewLine from '../components/ChartViewLine.js'
+import ChartViewBar from '../components/charts/ChartViewBar.js'
+import ChartViewLine from '../components/charts/ChartViewLine.js'
+import colors from '../assets/colors.json'
 
 const alimentList = ['fruit', 'vegetable', 'meat', 'fish', 'sugar', 'cereals', 'coffee', 'milk']
 
@@ -35,7 +36,6 @@ export default {
     'chart-view-line': ChartViewLine
   },
   data: () => ({
-    colors: ['#f87979', '#3D5B96', '#1EFFFF'],
     chartline: true
   }),
   computed: {
@@ -44,11 +44,9 @@ export default {
     ]),   
     ...mapState('Selection', [
       'selectedDecade',
-      'world'
     ]),
     ...mapGetters('Selection', [
         'allCountriesFoodData',
-        'zaWarudo'
       ]
     ),
 
@@ -70,9 +68,6 @@ export default {
 
     currentFoodData () {
       let data = this.allCountriesFoodData
-      if (this.world.state) {
-        data = this.zaWarudo
-      }
       return data.filter(el => el).map(el => {
         if (!el || !this.decades.length) return
         const currentFood = el.data.find(aliment => aliment.short_name === this.$route.params.aliment)
@@ -86,30 +81,34 @@ export default {
     chartDataBar () {
       return {
         labels: [`${this.currentFoodData[0].food[0].year} - ${this.currentFoodData[0].food[this.currentFoodData[0].food.length -1].year}`],
-        datasets: this.currentFoodData.map((el, i) => {
-          return {
+        datasets: this.currentFoodData.map((el, i) => ({
             label: el.country,
-            backgroundColor: this.colors[i],
+            backgroundColor: colors[this.$route.params.aliment].charts[i],
             data: el.food.reduce((acc, curr) => {
               acc[0] += curr.quantity
               return acc
-            }, [0])
-          }
-        })
+            }, [0]),
+            borderWidth: 2,
+            borderColor: "black",
+          })
+        )
       }
     },
 
     chartDataLine () {
       return {
         labels: this.currentFoodData[0].food.map(el => el.year),
-        datasets: this.currentFoodData.map((el, i) => {
-          return {
+        datasets: this.currentFoodData.map((el, i) => ({
             label: el.country,
-            borderColor: this.colors[i],
+            borderColor: colors[this.$route.params.aliment].charts[i],
+            pointHoverBackgroundColor: colors[this.$route.params.aliment].charts[i],
+            borderWidth: 4,
             backgroundColor: 'rgba(0,0,0,0)',
-            data: el.food.map(al => al.quantity)
-          }
-        })
+            data: el.food.map(al => al.quantity),
+            pointHoverRadius: 5,
+            pointHitRadius: 20,
+          })
+        )
       }
     },
 
@@ -138,9 +137,20 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background: #ffffff !important;
 
-  &:before {
+  &::before {
+    content: '';
+    background-image: url('~@/assets/svg/chartview-shape-background.svg?external');
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
+    background-position: right 0 bottom 0rem;
+    width: 100vw;
+    height: 100vw;
+    bottom: 0;
+    position: absolute;
+  }
+
+  &:after {
     content: attr(data-name);
     position: absolute;
     left: 50%;
@@ -152,6 +162,7 @@ export default {
     white-space: nowrap;
   }
 
+  transition: background-color 0.3s ease;
   &.fruit {
     background: $fruit;
   }
@@ -186,16 +197,42 @@ export default {
 
   .link {
     position: fixed;
-    svg {
-      height: 32px;
-      width: 32px;
+    top: 45%;
+    display: flex;
+    align-items: center;
+    &:hover {
+      svg {
+        animation-name: popJump;
+        animation-duration: 0.5s;
+      }
     }
-    top: 90%;
+    svg {
+      height: 7rem;
+      width: 7rem;
+    }
+
     &--left {
       left: 1rem;
+      &::before {
+        content: '';
+        background-image: url('~@/assets/svg/arrow.svg?external');
+        background-size: 25px 25px;
+        height: 25px;
+        width: 25px;
+        margin-right: 0.3rem;
+      }
     }
     &--right {
       right: 1rem;
+      &::after {
+        content: '';
+        background-image: url('~@/assets/svg/arrow.svg?external');
+        background-size: 25px 25px;
+        height: 25px;
+        width: 25px;
+        margin-left: 0.3rem;
+        transform: rotateZ(180deg);
+      }
     }
   }
 }
@@ -204,46 +241,85 @@ export default {
   z-index: 2;
   margin-top: auto;
   margin-bottom: 8rem;
+  padding: 0 16rem 0 16rem;
+  position: relative;
+  &::before {
+    content: '';
+    height: 2px;
+    width: 100vw;
+    background-color: #000000;
+    position: absolute;
+    left: 0;
+    bottom: 9rem;
+  }
+  &::after {
+    content: '';
+    height: 105%;
+    width: 2px;
+    background-color: #000000;
+    position: absolute;
+    left: 22rem;
+    bottom: 0;
+  }
   
-  &--bar {
-    width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  > div:first-child {
+    position: relative;
+    &:before {
+      content: 'kilotons';
+      position: absolute;
+      left: 30px;
+      top: -50px;
+    }
   }
 }
 
-.switch {
-  z-index: 2;
-  height: 3rem;
-  width: fit-content;
-  margin: 2rem auto 0;
-  display: block;
-  font-family: 'rumeur';
-  input {
-    display: none;
+.switch-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem auto 0;
+  align-items: flex-end;
+  svg {
+    height: 36px;
+    width: 36px;
+    margin: 0 1rem;
   }
-  span {
-    display: inline-block;
-    height: 100%;
-    width: 10rem;
-    margin: 0 0.5rem;
-    background-color: #7AD7FF;
-    border: 2px solid #000000;
-    border-radius: 15px;
-    overflow: hidden;
-    &:after {
-      content: '';
-      display: block;
-      border-radius: 15px;
+    
+  .switch {
+    z-index: 2;
+    height: 3rem;
+    width: fit-content;
+    display: block;
+    font-family: 'rumeur';
+
+    .toggle {
+      display: inline-block;
       height: 100%;
-      width: 50%;
-      background-color: #ffffff;
-      margin-left: 50%;
-      transition: margin 0.3s ease;
-    } 
-  }
-  input:checked + span:after {
-    margin-left: 0;
+      width: 7rem;
+      margin: 0 0.5rem;
+      background-color: #7AD7FF;
+      border: 2px solid #000000;
+      border-radius: 15px;
+      overflow: hidden;
+
+      &:after {
+        content: '';
+        display: block;
+        border-radius: 15px;
+        height: 100%;
+        width: 50%;
+        background-color: #ffffff;
+        margin-left: 50%;
+        transition: margin 0.3s ease;
+      } 
+    }
+
+    input {
+      display: none;
+      &:checked + .toggle:after {
+        margin-left: 0;
+      }
+    }
   }
 }
+
 </style>
