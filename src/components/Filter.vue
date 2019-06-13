@@ -1,9 +1,7 @@
 <template>
   <div class="dataviz-filters">
-    <router-link class="back-button" to="/dataviz" v-if="$route.params.aliment">
-      <svg>
-        <use xlink:href="#back-icon"/>
-      </svg>
+    <router-link class="back-button" :to="$route.params.aliment ? '/dataviz' : '/'">
+      <svg><use xlink:href="#back-icon"/></svg>
     </router-link>
 
     <h4 class="dataviz-filters__title">Choose a time and period</h4>
@@ -45,8 +43,8 @@
 </template>
 
 <script>
-  import CustomSelect from './CustomSelect.vue'
-  import DateSelect from './DateSelect.vue'
+  import CustomSelect from './filters/CustomSelect.vue'
+  import DateSelect from './filters/DateSelect.vue'
   import colors from '../assets/colors.json'
 
   import { mapState, mapGetters, mapActions } from 'vuex'
@@ -136,7 +134,7 @@
   align-items: center;
   background-color: rgba(#7AD7FF, 0.8);
   @media (min-width: $bp) {
-    padding: 2rem 4rem;
+    padding: 2rem 2.6rem;
     background-color: transparent;
     display: flex;
     flex-direction: row;
@@ -175,7 +173,7 @@
     border-radius: 4rem;
     cursor: pointer;
     @media (min-width: $bp) {
-      margin: 0 3rem;
+      margin: 0;
     }
     svg {
       height: 16px;
@@ -207,7 +205,7 @@
   .back-button {
     position: fixed;
     top: 30px;
-    left: 24px;
+    left: 26px;
     svg {
       height: 25px;
       width: 30px;

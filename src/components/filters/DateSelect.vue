@@ -71,7 +71,7 @@ div {
       transition: fill 0.2s ease;
       fill: #ffffff;
       &:hover {
-        fill: rgba(#6FE35C, 0.2);
+        fill: #C2FFB8;
         cursor: pointer;
       }
       &.green {

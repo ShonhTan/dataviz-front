@@ -9,7 +9,7 @@ import './assets/stylesheets/main.scss'
 
 import './helpers/directives.js'
 
-//import svg
+//import svg for svg-sprite-loader
 const r = require.context('./assets/svg', false, /\.svg$/)
 r.keys().map(r)
 

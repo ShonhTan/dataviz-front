@@ -24,8 +24,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import ChartViewBar from '../components/ChartViewBar.js'
-import ChartViewLine from '../components/ChartViewLine.js'
+import ChartViewBar from '../components/charts/ChartViewBar.js'
+import ChartViewLine from '../components/charts/ChartViewLine.js'
 import colors from '../assets/colors.json'
 
 const alimentList = ['fruit', 'vegetable', 'meat', 'fish', 'sugar', 'cereals', 'coffee', 'milk']
@@ -81,8 +81,7 @@ export default {
     chartDataBar () {
       return {
         labels: [`${this.currentFoodData[0].food[0].year} - ${this.currentFoodData[0].food[this.currentFoodData[0].food.length -1].year}`],
-        datasets: this.currentFoodData.map((el, i) => {
-          return {
+        datasets: this.currentFoodData.map((el, i) => ({
             label: el.country,
             backgroundColor: colors[this.$route.params.aliment].charts[i],
             data: el.food.reduce((acc, curr) => {
@@ -91,16 +90,15 @@ export default {
             }, [0]),
             borderWidth: 2,
             borderColor: "black",
-          }
-        })
+          })
+        )
       }
     },
 
     chartDataLine () {
       return {
         labels: this.currentFoodData[0].food.map(el => el.year),
-        datasets: this.currentFoodData.map((el, i) => {
-          return {
+        datasets: this.currentFoodData.map((el, i) => ({
             label: el.country,
             borderColor: colors[this.$route.params.aliment].charts[i],
             pointHoverBackgroundColor: colors[this.$route.params.aliment].charts[i],
@@ -109,8 +107,8 @@ export default {
             data: el.food.map(al => al.quantity),
             pointHoverRadius: 5,
             pointHitRadius: 20,
-          }
-        })
+          })
+        )
       }
     },
 
@@ -139,9 +137,20 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background: #ffffff !important;
 
-  &:before {
+  &::before {
+    content: '';
+    background-image: url('~@/assets/svg/chartview-shape-background.svg?external');
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
+    background-position: right 0 bottom 0rem;
+    width: 100vw;
+    height: 100vw;
+    bottom: 0;
+    position: absolute;
+  }
+
+  &:after {
     content: attr(data-name);
     position: absolute;
     left: 50%;
@@ -153,6 +162,7 @@ export default {
     white-space: nowrap;
   }
 
+  transition: background-color 0.3s ease;
   &.fruit {
     background: $fruit;
   }
@@ -255,9 +265,9 @@ export default {
   > div:first-child {
     position: relative;
     &:before {
-      content: 'x 1 000 tons';
+      content: 'kilotons';
       position: absolute;
-      left: 10px;
+      left: 30px;
       top: -50px;
     }
   }

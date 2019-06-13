@@ -2,6 +2,7 @@
   <section class="section dataviz" :class="{ 'dataviz--on-menu' : mobileMenuOpen }">
     <FilterComponent @close="mobileMenuOpen=false"/>
     <button class="dataviz__mobile-menu-button" @click="mobileMenuOpen=true"/>
+    <p class="instructions">Chose a country and period to see where and when the different foods are the most produced !</p>
     <div class="dataviz-data" ref="datavizElement">
       <div class="dataviz-data__item"
            v-for="(item, index) in currentData"
@@ -83,8 +84,8 @@ export default {
   mounted () {
     this.getParams()
     this.setCountry({
-      country_name: 'France',
-      country_code: 'FRA'
+      country_name: 'World',
+      country_code: '000'
     })
     window.addEventListener('resize', () => {
       this.rerenderkey++
@@ -119,6 +120,24 @@ export default {
   flex-direction: column;
   align-items: stretch;
   background: #FFFBF4;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    background-image: url('~@/assets/svg/background-header.svg?external');
+    width: 2070px;
+    height: 440px;
+    top: -315px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .instructions {
+    padding: 18rem 0 0 2.4rem;
+    font-family: 'rumeur';
+    font-size: 2.2rem;
+    font-weight: 600;
+  }
   
   &__mobile-menu-button {
     z-index: 10;

@@ -5,7 +5,9 @@
       <input v-model="input.country_name"
              type="text"
              @focus="onFocus"
-             @keyup.enter="onEnter">
+             @keyup.enter="onEnter"
+             placeholder="Select a country">
+      <span class="arrow" @click.prevent="toggleInput"/>
     </div>
     
     <div class="custom-select__list" v-if="filteredList.length">
@@ -101,6 +103,10 @@ export default {
   },
 
   methods: {
+    toggleInput () {
+      this.focus = !this.focus
+    },
+    
     onSelect (item) {
       this.memory = null
       this.focus = false
@@ -181,9 +187,9 @@ export default {
         display: none;
       }
     }
-    &:after {
-      content: '';
+    .arrow {
       position: absolute;
+      display: block;
       top: 50%;
       right: 3rem;
       height: 1rem;
@@ -191,7 +197,8 @@ export default {
       border-right: 2px solid #000000;
       border-bottom: 2px solid #000000;
       transform: translateY(-50%) rotateZ(45deg);
-      pointer-events: none;
+      transition: transform 0.3s ease;
+      cursor: pointer;
     }
       
     input {
@@ -208,11 +215,17 @@ export default {
     }
   }
 
-  &.is-active .custom-select__list {
-    visibility: visible;
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
+  &.is-active {
+    .custom-select__list {
+      visibility: visible;
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    .custom-select__box .arrow {
+      transform: translateY(-50%) rotateZ(-135deg);
+    }
   }
+  
   &__list {
     display: none;
     @media (min-width:$bp) {
@@ -251,8 +264,8 @@ export default {
     border: none;
     background: transparent;
     padding: 0;
-    top: -15px;
-    left: -15px;
+    top: -14px;
+    right: -14px;
     cursor: pointer;
     svg {
       width: 30px;
