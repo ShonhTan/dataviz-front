@@ -1,29 +1,23 @@
-# make-a-shift
+# Projet Dataviz (front)
 
-## Project setup
+![logo](./src/assets/img/logo-dailybread.png)
+
+Projet de dataviz sur la production de denrée alimentaire dans le monde.
+
+Projet côté back-end: [lien](https://github.com/ShonhTan/dataviz-back)
+
+Par [Vincent](https://github.com/ShonhTan),
+[Valentine](https://github.com/Vlry),
+[Théo](https://github.com/Theo-LARUE),
+[Brahim](https://github.com/bmahious),
+[Billal](https://github.com/BillalOI)
+
+## Installation
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Lancement du serveur de développement local
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
